@@ -123,6 +123,7 @@ public class MainWindow
                 break;
 
             case "rotateFirst":
+
                 rotate.generationWindow(nameMethod);
                 break;
 
@@ -136,6 +137,7 @@ public class MainWindow
 
             case "rotateFourth":
                 rotate.generationWindow(nameMethod);
+
                 break;
 
             case "colorFirst":
