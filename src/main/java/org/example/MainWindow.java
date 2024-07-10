@@ -2,10 +2,13 @@ package org.example;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.highgui.HighGui;
 import org.opencv.videoio.VideoCapture;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MainWindow
 {
@@ -17,6 +20,9 @@ public class MainWindow
     public static final String[] methods = {"none", "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth",
             "colorFirst", "colorSecond", "colorThird", "colorFourth",
             "cvtFirst", "cvtSecond", "cvtThird", "cvtFourth"};
+
+
+    static ArrayList<Object> objectsMethods = new ArrayList<>();
 
     public static String nameMethod = "none";
 
@@ -67,6 +73,8 @@ public class MainWindow
                 try
                 {
                     initializeMethods();
+                    System.out.println(objectsMethods.size());
+                    putPicture();
 
                     camera.read(original);
 
@@ -101,6 +109,7 @@ public class MainWindow
                 }
                 catch (Exception e)
                 {
+                    e.printStackTrace();
                     continue;
                 }
 
@@ -110,6 +119,7 @@ public class MainWindow
             picture.get(firstImage).release();
             picture.get(secondImage).release();
         }
+
 
 
     }
@@ -123,6 +133,9 @@ public class MainWindow
                 break;
 
             case "rotateFirst":
+                RotateImage rotateImage = new RotateImage(original, Core.ROTATE_180);
+                rotateImage.execute();
+                objectsMethods.add(rotateImage);
 
                 rotate.generationWindow(nameMethod);
                 break;
@@ -164,8 +177,39 @@ public class MainWindow
             case "cvtFourth":
                 break;
         }
+        nameMethod = "none";
+
+
 
     }
+
+
+    private static void putPicture()
+    {
+        if(!objectsMethods.isEmpty())
+        {
+
+                Object object = objectsMethods.get(0);
+                Mat resultImage = new Mat();
+                Mat src = original;
+                if (object instanceof RotateImage rotateImage) {
+                    RotateImage rotateObject  = new RotateImage(src, rotateImage.getRotateCode());
+                    rotateObject.execute();
+                    resultImage = rotateObject.getResult();
+                }
+                else if (object instanceof ColorImage colorImage) {
+
+
+                }
+                else if (object instanceof CvtImage cvtImage) {
+
+
+                }
+
+                picture.put("1", resultImage.clone());
+        }
+    }
+
 
 
 

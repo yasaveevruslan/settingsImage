@@ -1,6 +1,6 @@
 package org.example;
 
-public class SittingsWindow
+public class SettingsWindow
 {
 
 }
