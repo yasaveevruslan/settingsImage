@@ -114,6 +114,7 @@ public class MainWindow
 
     }
 
+    public static RotateWindow rotate = new RotateWindow();
 
     public static void initializeMethods()
     {
@@ -122,15 +123,21 @@ public class MainWindow
                 break;
 
             case "rotateFirst":
+
+                rotate.generationWindow(nameMethod);
                 break;
 
             case "rotateSecond":
+                rotate.generationWindow(nameMethod);
                 break;
 
             case "rotateThird":
+                rotate.generationWindow(nameMethod);
                 break;
 
             case "rotateFourth":
+                rotate.generationWindow(nameMethod);
+
                 break;
 
             case "colorFirst":
