@@ -109,7 +109,6 @@ public class MainWindow
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
                     continue;
                 }
 
@@ -119,7 +118,6 @@ public class MainWindow
             picture.get(firstImage).release();
             picture.get(secondImage).release();
         }
-
 
 
     }
