@@ -2,45 +2,44 @@ package org.example;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.highgui.HighGui;
 import org.opencv.videoio.VideoCapture;
+
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Properties;
 
-public class MainWindow
-{
+public class MainWindow {
 
-    public static final String[] elements = {"original", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-            "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-            "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+    public static final String[] elements = {"original", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 
-    public static final String[] methods = {"none", "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth",
-            "colorFirst", "colorSecond", "colorThird", "colorFourth",
-            "cvtFirst", "cvtSecond", "cvtThird", "cvtFourth"};
+    public static final String[] methods = {"none", "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth", "colorFirst", "colorSecond", "colorThird", "colorFourth", "cvtFirst", "cvtSecond", "cvtThird", "cvtFourth"};
 
 
     static ArrayList<Object> objectsMethods = new ArrayList<>();
 
     public static String nameMethod = "none";
+    public static String lastNameMethod = "werwe";
 
     public static String firstImage = "original", secondImage = "original";
 
-    public static Mat original, mat1, mat2, mat3, mat4, mat5, mat6, mat7, mat8, mat9, mat10,
-            mat11, mat12, mat13, mat14, mat15, mat16, mat17, mat18, mat19, mat20,
-            mat21, mat22, mat23, mat24, mat25, mat26, mat27, mat28, mat29, mat30, mat31;
+    public static Mat original, mat1, mat2, mat3, mat4, mat5, mat6, mat7, mat8, mat9, mat10, mat11, mat12, mat13, mat14, mat15, mat16, mat17, mat18, mat19, mat20, mat21, mat22, mat23, mat24, mat25, mat26, mat27, mat28, mat29, mat30, mat31;
 
 
     public static HashMap<String, Mat> picture = new HashMap<>();
 
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
 
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         initializePicture();
+
+        createProperties();
+
+
 
         JFrame frame = new JFrame();
         frame.setBounds(0, 0, 1200, 1015);
@@ -56,40 +55,29 @@ public class MainWindow
 
         VideoCapture camera = new VideoCapture(0);
 
-        if (!camera.isOpened())
-        {
+        if (!camera.isOpened()) {
             System.out.println("!!! Did not connect to camera !!!");
-        }
-        else
-        {
-            System.out.println("found webcam: " + camera.toString());
+        } else {
+            System.out.println("found webcam: " + camera);
         }
 
-        if (camera.isOpened())
-        {
+        if (camera.isOpened()) {
             Thread.sleep(30);
-            while (true)
-            {
-                try
-                {
+            while (true) {
+                try {
                     initializeMethods();
-                    System.out.println(objectsMethods.size());
                     putPicture();
-
                     camera.read(original);
 
-                    if (picture.get(firstImage).empty())
-                    {
+                    if (picture.get(firstImage).empty()) {
                         camera.read(picture.get(firstImage));
                     }
 
-                    if (picture.get(secondImage).empty())
-                    {
+                    if (picture.get(secondImage).empty()) {
                         camera.read(picture.get(secondImage));
                     }
 
-                    if (!original.empty())
-                    {
+                    if (!original.empty()) {
 
                         matToBufferedImageConverter.setMatrix(picture.get(firstImage), ".jpg");
                         BufferedImage bufImgFirst = matToBufferedImageConverter.getBufferedImage();
@@ -99,18 +87,13 @@ public class MainWindow
 
                         facePanel.setFace(bufImgFirst, bufImgSecond);
                         facePanel.repaint();
-                    }
-                    else
-                    {
+                    } else {
                         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         System.exit(1);
                         break;
                     }
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                    continue;
+                } catch (Exception e) {
+                    e.getLocalizedMessage();
                 }
 
 
@@ -121,23 +104,25 @@ public class MainWindow
         }
 
 
-
     }
 
 
-    public static void initializeMethods()
-    {
-        switch (nameMethod){
+    public static void initializeMethods() {
+
+        switch (nameMethod) {
             case "none":
                 break;
 
             case "rotateFirst":
+                lastNameMethod = nameMethod;
+
                 RotateImage rotateImage = new RotateImage(picture.get(RotateWindow.imageFirst), RotateWindow.degreesPosition);
                 rotateImage.execute();
                 objectsMethods.add(rotateImage);
 
                 RotateWindow rotate = new RotateWindow("original", "10", 0);
                 rotate.generationWindow(nameMethod);
+
                 break;
 
             case "rotateSecond":
@@ -176,41 +161,34 @@ public class MainWindow
         nameMethod = "none";
 
 
-
     }
 
 
-    private static void putPicture()
-    {
-        if(!objectsMethods.isEmpty())
-        {
-
-                Object object = objectsMethods.get(0);
-                Mat resultImage = new Mat();
-                Mat src = picture.get(RotateWindow.imageFirst);
-                if (object instanceof RotateImage rotateImage) {
-                    RotateImage rotateObject  = new RotateImage(src, RotateWindow.degreesPosition);
-                    rotateObject.execute();
-                    resultImage = rotateObject.getResult();
-                }
-                else if (object instanceof ColorImage colorImage) {
+    private static void putPicture() throws IOException {
+        if (!objectsMethods.isEmpty()) {
+            Object object = objectsMethods.get(0);
+            Mat resultImage = new Mat();
+            Mat src = picture.get(RotateWindow.imageFirst);
+            if (object instanceof RotateImage) {
+                RotateImage rotateObject = new RotateImage(src, RotateWindow.degreesPosition);
+                rotateObject.execute();
+                resultImage = rotateObject.getResult();
+                updateProperty(lastNameMethod, RotateWindow.degreesPosition + ", " + RotateWindow.imageFirst + ", " + RotateWindow.imageSecond);
+            } else if (object instanceof ColorImage colorImage) {
 
 
-                }
-                else if (object instanceof CvtImage cvtImage) {
+            } else if (object instanceof CvtImage cvtImage) {
 
 
-                }
+            }
 
-                picture.put(RotateWindow.imageSecond, resultImage.clone());
+
+            picture.put(RotateWindow.imageSecond, resultImage.clone());
         }
     }
 
 
-
-
-    public static void initializePicture()
-    {
+    public static void initializePicture() {
         original = new Mat();
         mat1 = new Mat();
         mat2 = new Mat();
@@ -278,5 +256,58 @@ public class MainWindow
         picture.put("30", mat30);
         picture.put("31", mat31);
 
+    }
+
+    private static void createProperties() throws IOException {
+
+        String appConfigPath = "src/main/java/org/example/app.properties";
+
+        Properties properties = new Properties();
+        FileOutputStream fileOutputStream = new FileOutputStream(appConfigPath);
+
+
+
+        for (String method : methods) {
+            if (!method.equalsIgnoreCase("none")) {
+                properties.setProperty(method, "0");
+            }
+        }
+
+        properties.store(fileOutputStream, "File to store settings");
+
+        fileOutputStream.close();
+    }
+
+
+    public static String loadProperties(String key) throws IOException {
+        String appConfigPath = "src/main/java/org/example/app.properties";
+
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream(appConfigPath);
+
+        properties.load(fileInputStream);
+
+        fileInputStream.close();
+
+        return properties.getProperty(key, "0");
+    }
+
+    public static void updateProperty(String key, String value) throws IOException {
+        String appConfigPath = "src/main/java/org/example/app.properties";
+
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream(appConfigPath);
+
+        properties.load(fileInputStream);
+
+        fileInputStream.close();
+
+        properties.setProperty(key, value);
+
+        FileOutputStream fileOutputStream = new FileOutputStream(appConfigPath);
+
+        properties.store(fileOutputStream, "File to store settings");
+
+        fileOutputStream.close();
     }
 }

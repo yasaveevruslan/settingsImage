@@ -1,11 +1,14 @@
 package org.example;
 
+import com.sun.tools.javac.Main;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 
 public class RotateWindow {
@@ -16,9 +19,32 @@ public class RotateWindow {
 
     public RotateWindow(String nameFirst, String nameSecond, int degrees)
     {
-        imageFirst = nameFirst;
-        imageSecond = nameSecond;
-        degreesPosition = degrees;
+        try
+        {
+            String[] lastValues = MainWindow.loadProperties(MainWindow.nameMethod).split(", ");
+            if(lastValues.length>2)
+            {
+                int degreesValue = Integer.parseInt(lastValues[0]);
+                String imageFirstValue = lastValues[1];
+                String imageSecondValue = lastValues[2];
+                imageFirst = imageFirstValue;
+                imageSecond = imageSecondValue;
+                degreesPosition = degreesValue;
+
+                System.out.println(imageFirst + " " + imageSecond+ " " + degreesPosition);
+            }
+            else
+            {
+                imageFirst = nameFirst;
+                imageSecond = nameSecond;
+                degreesPosition =  degrees;
+
+            }
+        }
+        catch (IOException e)
+        {
+            e.getLocalizedMessage();
+        }
     }
 
 
