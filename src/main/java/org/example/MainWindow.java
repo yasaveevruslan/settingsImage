@@ -109,6 +109,7 @@ public class MainWindow
                 }
                 catch (Exception e)
                 {
+                    e.printStackTrace();
                     continue;
                 }
 
@@ -120,9 +121,9 @@ public class MainWindow
         }
 
 
+
     }
 
-    public static RotateWindow rotate = new RotateWindow();
 
     public static void initializeMethods()
     {
@@ -134,21 +135,15 @@ public class MainWindow
                 RotateImage rotateImage = new RotateImage(original, Core.ROTATE_180);
                 rotateImage.execute();
                 objectsMethods.add(rotateImage);
-
-                rotate.generationWindow(nameMethod);
                 break;
 
             case "rotateSecond":
-                rotate.generationWindow(nameMethod);
                 break;
 
             case "rotateThird":
-                rotate.generationWindow(nameMethod);
                 break;
 
             case "rotateFourth":
-                rotate.generationWindow(nameMethod);
-
                 break;
 
             case "colorFirst":

@@ -7,9 +7,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class RotateWindow {
 
-    public static void generationWindow(String name)
+    public static String imageFirst;
+    public static String imageSecond;
+    public static int degreesPosition;
+
+    public RotateWindow(String nameFirst, String nameSecond, int degrees)
+    {
+        imageFirst = nameFirst;
+        imageSecond = nameSecond;
+        degreesPosition = degrees;
+    }
+
+
+
+    public void generationWindow(String name)
     {
         JFrame frame = new JFrame(name);
         frame.setBounds(1200, 0, 700, 400);
@@ -30,12 +44,16 @@ class Panel extends JPanel implements ActionListener {
         generationElements();
     }
 
+
+    private JComboBox firstImage, secondImage;
+
     private void generationElements()
     {
         JLabel first = new JLabel("first");
-        JComboBox firstImage = new JComboBox(MainWindow.elements);
+        firstImage = new JComboBox(MainWindow.elements);
         JLabel second = new JLabel("end");
-        JComboBox secondImage = new JComboBox(MainWindow.elements);
+        secondImage = new JComboBox(MainWindow.elements);
+        secondImage.setSelectedIndex(10);
         firstImage.addActionListener(this);
         secondImage.addActionListener(this);
         first.setBounds(200, 5, 70, 50);
@@ -48,7 +66,7 @@ class Panel extends JPanel implements ActionListener {
         super.add(secondImage);
 
         JLabel degrees = new JLabel("", JLabel.CENTER);
-        JSlider slider = new JSlider(-360, 360, 0);
+        JSlider slider = new JSlider(-360, 360, RotateWindow.degreesPosition);
         slider.setBounds(50, 200, 600, 50);
         degrees.setBounds(250, 250, 200, 50);
 
@@ -61,6 +79,8 @@ class Panel extends JPanel implements ActionListener {
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 degrees.setText("Value of the slider is: " + ((JSlider)e.getSource()).getValue());
+                RotateWindow.degreesPosition = ((JSlider)e.getSource()).getValue();
+                System.out.println(RotateWindow.degreesPosition);
             }
         });
         slider.setMajorTickSpacing(5);
@@ -73,7 +93,8 @@ class Panel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        RotateWindow.imageFirst = (String) firstImage.getSelectedItem();
+        RotateWindow.imageSecond = (String) secondImage.getSelectedItem();
     }
 
 }

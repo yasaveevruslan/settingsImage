@@ -2,6 +2,9 @@ package org.example;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.imgproc.Imgproc;
+
 
 public class RotateImage {
     private Mat src;
@@ -15,12 +18,20 @@ public class RotateImage {
 
     public void execute()
     {
-
         try
         {
+//            result = new Mat(src.rows(), src.cols(), src.type());
             result = new Mat();
-            Core.rotate(src, result, rotateCode);
+            Point src_center = new Point(src.cols() / 2.0F, src.rows() / 2.0F);
+            Mat rot_mat = Imgproc.getRotationMatrix2D(src_center, 360 - rotateCode, 1.0);
+            Imgproc.warpAffine(src, result, rot_mat, src.size());
+
+//            result = new Mat();
+//            Core.rotate(src, result, rotateCode);
             src.release();
+            rot_mat.release();
+
+//            result = dst;
         }
         catch (Exception e)
         {
