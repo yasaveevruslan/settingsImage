@@ -132,9 +132,12 @@ public class MainWindow
                 break;
 
             case "rotateFirst":
-                RotateImage rotateImage = new RotateImage(original, Core.ROTATE_180);
+                RotateImage rotateImage = new RotateImage(picture.get(RotateWindow.imageFirst), RotateWindow.degreesPosition);
                 rotateImage.execute();
                 objectsMethods.add(rotateImage);
+
+                RotateWindow rotate = new RotateWindow("original", "10", 0);
+                rotate.generationWindow(nameMethod);
                 break;
 
             case "rotateSecond":
@@ -184,9 +187,9 @@ public class MainWindow
 
                 Object object = objectsMethods.get(0);
                 Mat resultImage = new Mat();
-                Mat src = original;
+                Mat src = picture.get(RotateWindow.imageFirst);
                 if (object instanceof RotateImage rotateImage) {
-                    RotateImage rotateObject  = new RotateImage(src, rotateImage.getRotateCode());
+                    RotateImage rotateObject  = new RotateImage(src, RotateWindow.degreesPosition);
                     rotateObject.execute();
                     resultImage = rotateObject.getResult();
                 }
@@ -199,7 +202,7 @@ public class MainWindow
 
                 }
 
-                picture.put("1", resultImage.clone());
+                picture.put(RotateWindow.imageSecond, resultImage.clone());
         }
     }
 
