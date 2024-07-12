@@ -28,7 +28,7 @@ public class RotateImage {
 
 //            result = new Mat();
 //            Core.rotate(src, result, rotateCode);
-            src.release();
+//            src.release();
             rot_mat.release();
 
 //            result = dst;
@@ -36,7 +36,7 @@ public class RotateImage {
         catch (Exception e)
         {
             result = null;
-            System.out.println(e.getLocalizedMessage());
+//            System.out.println(e.getLocalizedMessage());
         }
     }
 

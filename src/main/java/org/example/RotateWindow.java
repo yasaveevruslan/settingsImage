@@ -9,52 +9,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Arrays;
 
 
 public class RotateWindow {
 
-    public static String imageFirst;
-    public static String imageSecond;
-    public static int degreesPosition;
+    private static String imageFirst;
+    private static String imageSecond;
+    private static int degreesPosition;
 
     public RotateWindow(String nameFirst, String nameSecond, int degrees)
     {
-        try
-        {
-            String[] lastValues = MainWindow.loadProperties(MainWindow.nameMethod).split(", ");
-            if(lastValues.length>2)
-            {
-                int degreesValue = Integer.parseInt(lastValues[0]);
-                String imageFirstValue = lastValues[1];
-                String imageSecondValue = lastValues[2];
-                imageFirst = imageFirstValue;
-                imageSecond = imageSecondValue;
-                degreesPosition = degreesValue;
-
-                System.out.println(imageFirst + " " + imageSecond+ " " + degreesPosition);
-            }
-            else
-            {
-                imageFirst = nameFirst;
-                imageSecond = nameSecond;
-                degreesPosition =  degrees;
-
-            }
-        }
-        catch (IOException e)
-        {
-            e.getLocalizedMessage();
-        }
+        imageFirst = nameFirst;
+        imageSecond = nameSecond;
+        degreesPosition = degrees;
     }
 
 
 
-    public void generationWindow(String name)
+    public static void generationWindow(String name, String nameFirst, String nameSecond, int degrees)
     {
+        imageFirst = nameFirst;
+        imageSecond = nameSecond;
+        degreesPosition = degrees;
+
         JFrame frame = new JFrame(name);
         frame.setBounds(1200, 0, 700, 400);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        Panel panel = new Panel();
+        Panel panel = new Panel(name, imageFirst, imageSecond, degreesPosition);
         frame.setContentPane(panel);
         frame.setVisible(true);
 
@@ -63,23 +45,53 @@ public class RotateWindow {
 }
 
 class Panel extends JPanel implements ActionListener {
-    public Panel()
+
+    private String name, imageFirst, imageSecond;
+    private int degreesPosition;
+    public Panel(String name, String imageFirst, String imageSecond, int degreesPosition)
     {
         super();
+        this.name = name;
         super.setLayout(null);
-        generationElements();
+        generationElements(name, imageFirst, imageSecond, degreesPosition);
     }
 
 
     private JComboBox firstImage, secondImage;
 
-    private void generationElements()
+    private void generationElements(String name, String imageFirst, String imageSecond, int d)
     {
+        try
+        {
+            String[] lastValues = MainWindow.loadProperties(MainWindow.nameMethod).split(", ");
+            if(lastValues.length>2)
+            {
+                int degreesValue = Integer.parseInt(lastValues[2]);
+                String imageFirstValue = lastValues[0];
+                String imageSecondValue = lastValues[1];
+                this.imageFirst  = imageFirstValue;
+                this.imageSecond = imageSecondValue;
+                this.degreesPosition = degreesValue;
+            }
+            else
+            {
+                this.imageFirst = imageFirst;
+                this.imageSecond = imageSecond;
+                this.degreesPosition = d;
+            }
+
+        }
+        catch (IOException e)
+        {
+            e.getLocalizedMessage();
+        }
+
         JLabel first = new JLabel("first");
         firstImage = new JComboBox(MainWindow.elements);
         JLabel second = new JLabel("end");
         secondImage = new JComboBox(MainWindow.elements);
-        secondImage.setSelectedIndex(10);
+        firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
+        secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
         firstImage.addActionListener(this);
         secondImage.addActionListener(this);
         first.setBounds(200, 5, 70, 50);
@@ -92,7 +104,7 @@ class Panel extends JPanel implements ActionListener {
         super.add(secondImage);
 
         JLabel degrees = new JLabel("", JLabel.CENTER);
-        JSlider slider = new JSlider(-360, 360, RotateWindow.degreesPosition);
+        JSlider slider = new JSlider(-360, 360, degreesPosition);
         slider.setBounds(50, 200, 600, 50);
         degrees.setBounds(250, 250, 200, 50);
 
@@ -104,9 +116,15 @@ class Panel extends JPanel implements ActionListener {
         slider.setMinorTickSpacing(5);
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                degrees.setText("Value of the slider is: " + ((JSlider)e.getSource()).getValue());
-                RotateWindow.degreesPosition = ((JSlider)e.getSource()).getValue();
-                System.out.println(RotateWindow.degreesPosition);
+
+                try {
+                    degrees.setText("Value of the slider is: " + ((JSlider)e.getSource()).getValue());
+                    degreesPosition = ((JSlider)e.getSource()).getValue();
+                    MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + degreesPosition);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
             }
         });
         slider.setMajorTickSpacing(5);
@@ -119,8 +137,15 @@ class Panel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        RotateWindow.imageFirst = (String) firstImage.getSelectedItem();
-        RotateWindow.imageSecond = (String) secondImage.getSelectedItem();
+
+        try {
+            imageFirst = (String) firstImage.getSelectedItem();
+            imageSecond = (String) secondImage.getSelectedItem();
+            MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + degreesPosition);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }
 
 }

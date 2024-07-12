@@ -2,15 +2,13 @@ package org.example;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 
 public class MainWindow {
 
@@ -18,11 +16,12 @@ public class MainWindow {
 
     public static final String[] methods = {"none", "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth", "colorFirst", "colorSecond", "colorThird", "colorFourth", "cvtFirst", "cvtSecond", "cvtThird", "cvtFourth"};
 
+    public static HashMap<String, Integer> cvt = new HashMap<>();
 
-    static ArrayList<Object> objectsMethods = new ArrayList<>();
+    public static HashMap<String, Object> objectsMethods = new HashMap<>();
 
     public static String nameMethod = "none";
-    public static String lastNameMethod = "werwe";
+    public static String lastNameMethod = "none";
 
     public static String firstImage = "original", secondImage = "original";
 
@@ -68,6 +67,8 @@ public class MainWindow {
                     initializeMethods();
                     putPicture();
                     camera.read(original);
+//                    System.out.println(objectsMethods.size());
+                    picture.put("original", original);
 
                     if (picture.get(firstImage).empty()) {
                         camera.read(picture.get(firstImage));
@@ -107,56 +108,194 @@ public class MainWindow {
     }
 
 
-    public static void initializeMethods() {
+    public static void initializeMethods() throws IOException {
 
         switch (nameMethod) {
             case "none":
                 break;
 
             case "rotateFirst":
+            {
                 lastNameMethod = nameMethod;
+                RotateWindow.generationWindow(nameMethod, "original", "10", 0);
 
-                RotateImage rotateImage = new RotateImage(picture.get(RotateWindow.imageFirst), RotateWindow.degreesPosition);
-                rotateImage.execute();
-                objectsMethods.add(rotateImage);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "10" + ", " + "0");
 
-                RotateWindow rotate = new RotateWindow("original", "10", 0);
-                rotate.generationWindow(nameMethod);
 
-                break;
+                    RotateImage rotateImage = new RotateImage(picture.get("original"), 0);
+                    rotateImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
+                }
+            }
+            break;
 
             case "rotateSecond":
-                break;
+            {
+                lastNameMethod = nameMethod;
+                RotateWindow.generationWindow(nameMethod, "10", "15", 90);
+
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "15" + ", " + "90");
+
+
+                    RotateImage rotateImage = new RotateImage(picture.get("10"), 90);
+                    rotateImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
+                }
+            }
+            break;
 
             case "rotateThird":
-                break;
+            {
+                lastNameMethod = nameMethod;
+                RotateWindow.generationWindow(nameMethod, "15", "20", -90);
+
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "15" + ", " + "20" + ", " + "-90");
+
+                    RotateImage rotateImage = new RotateImage(picture.get("15"), -90);
+                    rotateImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
+                }
+            }
+            break;
 
             case "rotateFourth":
-                break;
+            {
+                lastNameMethod = nameMethod;
+                RotateWindow.generationWindow(nameMethod, "20", "25", 180);
+
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "20" + ", " + "25" + ", " + "180");
+
+                    RotateImage rotateImage = new RotateImage(picture.get("20"), 180);
+                    rotateImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
+                }
+            }
+            break;
 
             case "colorFirst":
-                break;
+            {
+                lastNameMethod = nameMethod;
+                ColorWindow.generationWindow(nameMethod, "original", "5", 0, 255, 0, 255, 0, 255);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "5" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
+
+                    ColorImage colorImage = new ColorImage(picture.get("original"), 0, 255, 0, 255, 0, 255);
+                    colorImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                }
+            }
+            break;
 
             case "colorSecond":
+                lastNameMethod = nameMethod;
+                ColorWindow.generationWindow(nameMethod, "5", "6", 0, 255, 0, 255, 0, 255);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "5" + ", " + "6" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
+
+                    ColorImage colorImage = new ColorImage(picture.get("5"), 0, 255, 0, 255, 0, 255);
+                    colorImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                }
                 break;
 
             case "colorThird":
+                lastNameMethod = nameMethod;
+                ColorWindow.generationWindow(nameMethod, "6", "7", 0, 255, 0, 255, 0, 255);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "6" + ", " + "7" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
+
+                    ColorImage colorImage = new ColorImage(picture.get("6"), 0, 255, 0, 255, 0, 255);
+                    colorImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                }
                 break;
 
             case "colorFourth":
+                lastNameMethod = nameMethod;
+                ColorWindow.generationWindow(nameMethod, "7", "8", 0, 255, 0, 255, 0, 255);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "7" + ", " + "8" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
+
+                    ColorImage colorImage = new ColorImage(picture.get("7"), 0, 255, 0, 255, 0, 255);
+                    colorImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                }
                 break;
 
             case "cvtFirst":
-                break;
+            {
+                lastNameMethod = nameMethod;
+                CvtWindow.generationWindow(nameMethod, "original", "1", "COLOR_BGR2HSV");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "1" + ", " + cvt.get("COLOR_BGR2HSV"));
+
+
+                    CvtImage cvtImage = new CvtImage(picture.get("original"), cvt.get("COLOR_BGR2HSV"));
+                    cvtImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                }
+            }
+            break;
 
             case "cvtSecond":
-                break;
+            {
+                lastNameMethod = nameMethod;
+                CvtWindow.generationWindow(nameMethod, "1", "2", "COLOR_BGR2HSV");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "1" + ", " + "2" + ", " + cvt.get("COLOR_BGR2HSV"));
+
+
+                    CvtImage cvtImage = new CvtImage(picture.get("1"), cvt.get("COLOR_BGR2HSV"));
+                    cvtImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                }
+            }
+            break;
 
             case "cvtThird":
-                break;
+            {
+                lastNameMethod = nameMethod;
+                CvtWindow.generationWindow(nameMethod, "2", "3", "COLOR_BGR2HSV");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "2" + ", " + "3" + ", " + cvt.get("COLOR_BGR2HSV"));
+
+
+                    CvtImage cvtImage = new CvtImage(picture.get("2"), cvt.get("COLOR_BGR2HSV"));
+                    cvtImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                }
+            }
+            break;
 
             case "cvtFourth":
-                break;
+            {
+                lastNameMethod = nameMethod;
+                CvtWindow.generationWindow(nameMethod, "3", "4", "COLOR_BGR2HSV");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "3" + ", " + "4" + ", " + cvt.get("COLOR_BGR2HSV"));
+
+                    CvtImage cvtImage = new CvtImage(picture.get("3"), cvt.get("COLOR_BGR2HSV"));
+                    cvtImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                }
+            }
+            break;
         }
         nameMethod = "none";
 
@@ -166,24 +305,42 @@ public class MainWindow {
 
     private static void putPicture() throws IOException {
         if (!objectsMethods.isEmpty()) {
-            Object object = objectsMethods.get(0);
-            Mat resultImage = new Mat();
-            Mat src = picture.get(RotateWindow.imageFirst);
-            if (object instanceof RotateImage) {
-                RotateImage rotateObject = new RotateImage(src, RotateWindow.degreesPosition);
-                rotateObject.execute();
-                resultImage = rotateObject.getResult();
-                updateProperty(lastNameMethod, RotateWindow.degreesPosition + ", " + RotateWindow.imageFirst + ", " + RotateWindow.imageSecond);
-            } else if (object instanceof ColorImage colorImage) {
+            for (Map.Entry<String, Object> object : objectsMethods.entrySet())
+            {
+//                Object object = objectsMethods.get(0);
+                Mat resultImage = new Mat();
+                String[] lastValues = loadProperties(object.getKey()).split(", ");
+                System.out.println(Arrays.toString(lastValues));
+
+                if (object.getValue() instanceof RotateImage)
+                {
+                    Mat src = picture.get(lastValues[0]);
+                    RotateImage rotateObject = new RotateImage(src, Integer.parseInt(lastValues[2]));
+                    rotateObject.execute();
+                    resultImage = rotateObject.getResult();
+
+                } else if (object.getValue() instanceof ColorImage)
+                {
+                    Mat src = picture.get(lastValues[0]);
+                    ColorImage colorObject = new ColorImage(src,
+                            Integer.parseInt(lastValues[2]), Integer.parseInt(lastValues[3]),
+                            Integer.parseInt(lastValues[4]), Integer.parseInt(lastValues[5]),
+                            Integer.parseInt(lastValues[6]), Integer.parseInt(lastValues[7]));
+                    colorObject.execute();
+                    resultImage = colorObject.getResult();
+
+                } else if (object.getValue() instanceof CvtImage) {
+
+                    Mat src = picture.get(lastValues[0]);
+                    CvtImage cvtImage = new CvtImage(src, Integer.parseInt(lastValues[2]));
+                    cvtImage.execute();
+                    resultImage = cvtImage.getResult();
+                }
 
 
-            } else if (object instanceof CvtImage cvtImage) {
-
-
+                picture.put(lastValues[1], resultImage.clone());
             }
 
-
-            picture.put(RotateWindow.imageSecond, resultImage.clone());
         }
     }
 
@@ -256,6 +413,13 @@ public class MainWindow {
         picture.put("30", mat30);
         picture.put("31", mat31);
 
+        cvt.put("COLOR_BGR2BGRA", Imgproc.COLOR_BGR2BGRA);
+        cvt.put("COLOR_BGR2HLS", Imgproc.COLOR_BGR2HLS);
+        cvt.put("COLOR_BGR2GRAY", Imgproc.COLOR_BGR2GRAY);
+        cvt.put("COLOR_BGR2HSV", Imgproc.COLOR_BGR2HSV);
+        cvt.put("COLOR_BGR2Lab", Imgproc.COLOR_BGR2Lab);
+        cvt.put("COLOR_BGR2Luv", Imgproc.COLOR_BGR2Luv);
+        cvt.put("COLOR_BGR2YUV", Imgproc.COLOR_BGR2YUV);
     }
 
     private static void createProperties() throws IOException {

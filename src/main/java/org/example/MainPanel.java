@@ -68,7 +68,7 @@ public class MainPanel extends JPanel implements ActionListener {
         boxSittings = new JComboBox(MainWindow.methods);
         boxSittings.addActionListener(this);
         nameSittings.setBounds(700, 245, 100, 50);
-        boxSittings.setBounds(820, 245, 100, 50);
+        boxSittings.setBounds(820, 245, 150, 50);
         super.add(nameSittings);
         super.add(boxSittings);
 
@@ -80,7 +80,7 @@ public class MainPanel extends JPanel implements ActionListener {
                 System.out.println((String) (boxSittings.getSelectedItem()));
             }
         });
-        open.setBounds(950, 245, 120, 50);
+        open.setBounds(1000, 245, 120, 50);
         super.add(open);
     }
 
