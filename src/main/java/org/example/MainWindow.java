@@ -14,7 +14,12 @@ public class MainWindow {
 
     public static final String[] elements = {"original", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 
-    public static final String[] methods = {"none", "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth", "colorFirst", "colorSecond", "colorThird", "colorFourth", "cvtFirst", "cvtSecond", "cvtThird", "cvtFourth"};
+    public static final String[] methods = {"none", "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth",
+            "colorFirst", "colorSecond", "colorThird", "colorFourth",
+            "cvtFirst", "cvtSecond", "cvtThird", "cvtFourth",
+            "blurFirst", "blurSecond", "blurThird", "blurFourth",
+            "dilateFirst", "dilateSecond", "dilateThird", "dilateFourth"
+    };
 
     public static HashMap<String, Integer> cvt = new HashMap<>();
 
@@ -117,11 +122,11 @@ public class MainWindow {
             case "rotateFirst":
             {
                 lastNameMethod = nameMethod;
-                RotateWindow.generationWindow(nameMethod, "original", "10", 0);
+                RotateWindow.generationWindow(nameMethod, "original", "31", 0);
 
                 if (!objectsMethods.containsKey(lastNameMethod))
                 {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "10" + ", " + "0");
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "1" + ", " + "0");
 
 
                     RotateImage rotateImage = new RotateImage(picture.get("original"), 0);
@@ -134,14 +139,14 @@ public class MainWindow {
             case "rotateSecond":
             {
                 lastNameMethod = nameMethod;
-                RotateWindow.generationWindow(nameMethod, "10", "15", 90);
+                RotateWindow.generationWindow(nameMethod, "1", "2", 0);
 
                 if (!objectsMethods.containsKey(lastNameMethod))
                 {
-                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "15" + ", " + "90");
+                    MainWindow.updateProperty(lastNameMethod, "1" + ", " + "2" + ", " + "0");
 
 
-                    RotateImage rotateImage = new RotateImage(picture.get("10"), 90);
+                    RotateImage rotateImage = new RotateImage(picture.get("1"), 0);
                     rotateImage.execute();
                     objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
                 }
@@ -151,13 +156,13 @@ public class MainWindow {
             case "rotateThird":
             {
                 lastNameMethod = nameMethod;
-                RotateWindow.generationWindow(nameMethod, "15", "20", -90);
+                RotateWindow.generationWindow(nameMethod, "2", "3", 0);
 
                 if (!objectsMethods.containsKey(lastNameMethod))
                 {
-                    MainWindow.updateProperty(lastNameMethod, "15" + ", " + "20" + ", " + "-90");
+                    MainWindow.updateProperty(lastNameMethod, "2" + ", " + "3" + ", " + "0");
 
-                    RotateImage rotateImage = new RotateImage(picture.get("15"), -90);
+                    RotateImage rotateImage = new RotateImage(picture.get("2"), 0);
                     rotateImage.execute();
                     objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
                 }
@@ -167,18 +172,25 @@ public class MainWindow {
             case "rotateFourth":
             {
                 lastNameMethod = nameMethod;
-                RotateWindow.generationWindow(nameMethod, "20", "25", 180);
+                RotateWindow.generationWindow(nameMethod, "3", "4", 0);
 
                 if (!objectsMethods.containsKey(lastNameMethod))
                 {
-                    MainWindow.updateProperty(lastNameMethod, "20" + ", " + "25" + ", " + "180");
+                    MainWindow.updateProperty(lastNameMethod, "3" + ", " + "4" + ", " + "0");
 
-                    RotateImage rotateImage = new RotateImage(picture.get("20"), 180);
+                    RotateImage rotateImage = new RotateImage(picture.get("3"), 0);
                     rotateImage.execute();
                     objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
                 }
             }
             break;
+
+
+
+
+
+
+
 
             case "colorFirst":
             {
@@ -234,13 +246,20 @@ public class MainWindow {
                 }
                 break;
 
+
+
+
+
+
+
+
             case "cvtFirst":
             {
                 lastNameMethod = nameMethod;
-                CvtWindow.generationWindow(nameMethod, "original", "1", "COLOR_BGR2HSV");
+                CvtWindow.generationWindow(nameMethod, "original", "9", "COLOR_BGR2HSV");
                 if (!objectsMethods.containsKey(lastNameMethod))
                 {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "1" + ", " + cvt.get("COLOR_BGR2HSV"));
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "9" + ", " + cvt.get("COLOR_BGR2HSV"));
 
 
                     CvtImage cvtImage = new CvtImage(picture.get("original"), cvt.get("COLOR_BGR2HSV"));
@@ -253,13 +272,13 @@ public class MainWindow {
             case "cvtSecond":
             {
                 lastNameMethod = nameMethod;
-                CvtWindow.generationWindow(nameMethod, "1", "2", "COLOR_BGR2HSV");
+                CvtWindow.generationWindow(nameMethod, "9", "10", "COLOR_BGR2HSV");
                 if (!objectsMethods.containsKey(lastNameMethod))
                 {
-                    MainWindow.updateProperty(lastNameMethod, "1" + ", " + "2" + ", " + cvt.get("COLOR_BGR2HSV"));
+                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "10" + ", " + cvt.get("COLOR_BGR2HSV"));
 
 
-                    CvtImage cvtImage = new CvtImage(picture.get("1"), cvt.get("COLOR_BGR2HSV"));
+                    CvtImage cvtImage = new CvtImage(picture.get("9"), cvt.get("COLOR_BGR2HSV"));
                     cvtImage.execute();
                     objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
                 }
@@ -269,13 +288,13 @@ public class MainWindow {
             case "cvtThird":
             {
                 lastNameMethod = nameMethod;
-                CvtWindow.generationWindow(nameMethod, "2", "3", "COLOR_BGR2HSV");
+                CvtWindow.generationWindow(nameMethod, "10", "11", "COLOR_BGR2HSV");
                 if (!objectsMethods.containsKey(lastNameMethod))
                 {
-                    MainWindow.updateProperty(lastNameMethod, "2" + ", " + "3" + ", " + cvt.get("COLOR_BGR2HSV"));
+                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "11" + ", " + cvt.get("COLOR_BGR2HSV"));
 
 
-                    CvtImage cvtImage = new CvtImage(picture.get("2"), cvt.get("COLOR_BGR2HSV"));
+                    CvtImage cvtImage = new CvtImage(picture.get("10"), cvt.get("COLOR_BGR2HSV"));
                     cvtImage.execute();
                     objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
                 }
@@ -285,14 +304,153 @@ public class MainWindow {
             case "cvtFourth":
             {
                 lastNameMethod = nameMethod;
-                CvtWindow.generationWindow(nameMethod, "3", "4", "COLOR_BGR2HSV");
+                CvtWindow.generationWindow(nameMethod, "11", "12", "COLOR_BGR2HSV");
                 if (!objectsMethods.containsKey(lastNameMethod))
                 {
-                    MainWindow.updateProperty(lastNameMethod, "3" + ", " + "4" + ", " + cvt.get("COLOR_BGR2HSV"));
+                    MainWindow.updateProperty(lastNameMethod, "11" + ", " + "12" + ", " + cvt.get("COLOR_BGR2HSV"));
 
-                    CvtImage cvtImage = new CvtImage(picture.get("3"), cvt.get("COLOR_BGR2HSV"));
+                    CvtImage cvtImage = new CvtImage(picture.get("11"), cvt.get("COLOR_BGR2HSV"));
                     cvtImage.execute();
                     objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                }
+            }
+            break;
+
+
+
+
+
+
+
+            case "blurFirst":
+            {
+                lastNameMethod = nameMethod;
+                BlurWindow.generationWindow(nameMethod, "original", "13", 1);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "13" + ", " + "1");
+
+
+                    BlurImage blurImage = new BlurImage(picture.get("original"), 1);
+                    blurImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                }
+            }
+            break;
+
+            case "blurSecond":
+            {
+                lastNameMethod = nameMethod;
+                BlurWindow.generationWindow(nameMethod, "13", "14", 1);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "13" + ", " + "14" + ", " + "1");
+
+
+                    BlurImage blurImage = new BlurImage(picture.get("13"), 1);
+                    blurImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                }
+            }
+            break;
+
+            case "blurThird":
+            {
+                lastNameMethod = nameMethod;
+                BlurWindow.generationWindow(nameMethod, "14", "15", 1);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "14" + ", " + "15" + ", " + "1");
+
+
+                    BlurImage blurImage = new BlurImage(picture.get("14"), 1);
+                    blurImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                }
+            }
+            break;
+
+            case "blurFourth":
+            {
+                lastNameMethod = nameMethod;
+                BlurWindow.generationWindow(nameMethod, "15", "16", 1);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "15" + ", " + "16" + ", " + "1");
+
+
+                    BlurImage blurImage = new BlurImage(picture.get("15"), 1);
+                    blurImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                }
+            }
+            break;
+
+
+
+
+
+
+            case "dilateFirst":
+            {
+                lastNameMethod = nameMethod;
+                DilateWindow.generationWindow(nameMethod, "original", "17", 1);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "17" + ", " + "1");
+
+
+                    DilateImage dilateImage = new DilateImage(picture.get("original"), 1);
+                    dilateImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                }
+            }
+            break;
+
+            case "dilateSecond":
+            {
+                lastNameMethod = nameMethod;
+                DilateWindow.generationWindow(nameMethod, "17", "18", 1);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "17" + ", " + "18" + ", " + "1");
+
+
+                    DilateImage dilateImage = new DilateImage(picture.get("17"), 1);
+                    dilateImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                }
+            }
+            break;
+
+            case "dilateThird":
+            {
+                lastNameMethod = nameMethod;
+                DilateWindow.generationWindow(nameMethod, "18", "19", 1);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "18" + ", " + "19" + ", " + "1");
+
+
+                    DilateImage dilateImage = new DilateImage(picture.get("18"), 1);
+                    dilateImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                }
+            }
+            break;
+
+            case "dilateFourth":
+            {
+                lastNameMethod = nameMethod;
+                DilateWindow.generationWindow(nameMethod, "19", "20", 1);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "19" + ", " + "20" + ", " + "1");
+
+
+                    DilateImage dilateImage = new DilateImage(picture.get("19"), 1);
+                    dilateImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
                 }
             }
             break;
@@ -335,6 +493,20 @@ public class MainWindow {
                     CvtImage cvtImage = new CvtImage(src, Integer.parseInt(lastValues[2]));
                     cvtImage.execute();
                     resultImage = cvtImage.getResult();
+
+                } else if (object.getValue() instanceof BlurImage) {
+
+                    Mat src = picture.get(lastValues[0]);
+                    BlurImage blurImage = new BlurImage(src, Integer.parseInt(lastValues[2]));
+                    blurImage.execute();
+                    resultImage = blurImage.getResult();
+
+                }else if (object.getValue() instanceof DilateImage) {
+
+                    Mat src = picture.get(lastValues[0]);
+                    DilateImage dilateImage = new DilateImage(src, Integer.parseInt(lastValues[2]));
+                    dilateImage.execute();
+                    resultImage = dilateImage.getResult();
                 }
 
 
