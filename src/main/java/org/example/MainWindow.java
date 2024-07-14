@@ -12,13 +12,19 @@ import java.util.*;
 
 public class MainWindow {
 
-    public static final String[] elements = {"original", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+    public static final String[] elements = {"original", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+            "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+            "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+            "30", "31", "32", "33", "34", "35", "36", "37", "38", "39"};
 
     public static final String[] methods = {"none", "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth",
             "colorFirst", "colorSecond", "colorThird", "colorFourth",
             "cvtFirst", "cvtSecond", "cvtThird", "cvtFourth",
             "blurFirst", "blurSecond", "blurThird", "blurFourth",
-            "dilateFirst", "dilateSecond", "dilateThird", "dilateFourth"
+            "dilateFirst", "dilateSecond", "dilateThird", "dilateFourth",
+            "binaryNotFirst", "binaryNotSecond", "binaryNotThird", "binaryNotFourth",
+            "binaryAndFirst", "binaryAndSecond", "binaryAndThird", "binaryAndFourth",
+            "binaryOrFirst", "binaryOrSecond", "binaryOrThird", "binaryOrFourth"
     };
 
     public static HashMap<String, Integer> cvt = new HashMap<>();
@@ -30,7 +36,10 @@ public class MainWindow {
 
     public static String firstImage = "original", secondImage = "original";
 
-    public static Mat original, mat1, mat2, mat3, mat4, mat5, mat6, mat7, mat8, mat9, mat10, mat11, mat12, mat13, mat14, mat15, mat16, mat17, mat18, mat19, mat20, mat21, mat22, mat23, mat24, mat25, mat26, mat27, mat28, mat29, mat30, mat31;
+    public static Mat original, mat1, mat2, mat3, mat4, mat5, mat6, mat7, mat8, mat9,
+            mat10, mat11, mat12, mat13, mat14, mat15, mat16, mat17, mat18, mat19,
+            mat20, mat21, mat22, mat23, mat24, mat25, mat26, mat27, mat28, mat29,
+            mat30, mat31, mat32, mat33, mat34, mat35, mat36, mat37, mat38, mat39;
 
 
     public static HashMap<String, Mat> picture = new HashMap<>();
@@ -454,6 +463,221 @@ public class MainWindow {
                 }
             }
             break;
+
+
+
+
+
+
+
+
+
+            case "binaryNotFirst":
+            {
+                lastNameMethod = nameMethod;
+                BinaryNotWindow.generationWindow(nameMethod, "9", "21");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "21");
+
+
+                    BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("9"));
+                    binaryNotImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                }
+            }
+            break;
+
+            case "binaryNotSecond":
+            {
+                lastNameMethod = nameMethod;
+                BinaryNotWindow.generationWindow(nameMethod, "10", "22");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "22");
+
+
+                    BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("10"));
+                    binaryNotImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                }
+            }
+            break;
+
+            case "binaryNotThird":
+            {
+                lastNameMethod = nameMethod;
+                BinaryNotWindow.generationWindow(nameMethod, "11", "23");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "11" + ", " + "23");
+
+
+                    BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("11"));
+                    binaryNotImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                }
+            }
+            break;
+
+            case "binaryNotFourth":
+            {
+                lastNameMethod = nameMethod;
+                BinaryNotWindow.generationWindow(nameMethod, "12", "24");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "12" + ", " + "24");
+
+
+                    BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("12"));
+                    binaryNotImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                }
+            }
+            break;
+
+
+
+
+
+
+
+
+
+            case "binaryAndFirst":
+            {
+                lastNameMethod = nameMethod;
+                BinaryAndWindow.generationWindow(nameMethod, "9", "9", "25");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "9" + ", " + "25");
+
+
+                    BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("9"), picture.get("9"));
+                    binaryAndImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                }
+            }
+            break;
+
+            case "binaryAndSecond":
+            {
+                lastNameMethod = nameMethod;
+                BinaryAndWindow.generationWindow(nameMethod, "10", "10", "26");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "10" + ", " + "26");
+
+
+                    BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("10"), picture.get("10"));
+                    binaryAndImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                }
+            }
+            break;
+
+            case "binaryAndThird":
+            {
+                lastNameMethod = nameMethod;
+                BinaryAndWindow.generationWindow(nameMethod, "11", "11", "27");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "11" + ", " + "11" + ", " + "27");
+
+
+                    BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("11"), picture.get("11"));
+                    binaryAndImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                }
+            }
+            break;
+
+            case "binaryAndFourth":
+            {
+                lastNameMethod = nameMethod;
+                BinaryAndWindow.generationWindow(nameMethod, "12", "12", "28");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "12" + ", " + "12" + ", " + "28");
+
+
+                    BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("12"), picture.get("12"));
+                    binaryAndImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                }
+            }
+            break;
+
+
+
+
+
+
+
+
+            case "binaryOrFirst":
+            {
+                lastNameMethod = nameMethod;
+                BinaryOrWindow.generationWindow(nameMethod, "9", "9", "29");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "9" + ", " + "29");
+
+
+                    BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("9"), picture.get("9"));
+                    binaryOrImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                }
+            }
+            break;
+
+            case "binaryOrSecond":
+            {
+                lastNameMethod = nameMethod;
+                BinaryOrWindow.generationWindow(nameMethod, "10", "10", "30");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "10" + ", " + "30");
+
+
+                    BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("10"), picture.get("10"));
+                    binaryOrImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                }
+            }
+            break;
+
+            case "binaryOrThird":
+            {
+                lastNameMethod = nameMethod;
+                BinaryOrWindow.generationWindow(nameMethod, "11", "11", "31");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "11" + ", " + "11" + ", " + "31");
+
+
+                    BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("11"), picture.get("11"));
+                    binaryOrImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                }
+            }
+            break;
+
+            case "binaryOrFourth":
+            {
+                lastNameMethod = nameMethod;
+                BinaryOrWindow.generationWindow(nameMethod, "12", "12", "32");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "12" + ", " + "12" + ", " + "32");
+
+
+                    BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("12"), picture.get("12"));
+                    binaryOrImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                }
+            }
+            break;
         }
         nameMethod = "none";
 
@@ -501,12 +725,36 @@ public class MainWindow {
                     blurImage.execute();
                     resultImage = blurImage.getResult();
 
-                }else if (object.getValue() instanceof DilateImage) {
+                } else if (object.getValue() instanceof DilateImage) {
 
                     Mat src = picture.get(lastValues[0]);
                     DilateImage dilateImage = new DilateImage(src, Integer.parseInt(lastValues[2]));
                     dilateImage.execute();
                     resultImage = dilateImage.getResult();
+
+                } else if (object.getValue() instanceof BinaryNotImage) {
+
+                    Mat src = picture.get(lastValues[0]);
+                    BinaryNotImage binaryNotImage = new BinaryNotImage(src);
+                    binaryNotImage.execute();
+                    resultImage = binaryNotImage.getResult();
+
+                } else if (object.getValue() instanceof BinaryAndImage) {
+
+                    Mat src = picture.get(lastValues[0]);
+                    Mat src2 = picture.get(lastValues[2]);
+                    BinaryAndImage binaryAndImage = new BinaryAndImage(src, src2);
+                    binaryAndImage.execute();
+                    resultImage = binaryAndImage.getResult();
+
+                } else if (object.getValue() instanceof BinaryOrImage) {
+
+                    Mat src = picture.get(lastValues[0]);
+                    Mat src2 = picture.get(lastValues[2]);
+                    BinaryOrImage binaryOrImage = new BinaryOrImage(src, src2);
+                    binaryOrImage.execute();
+                    resultImage = binaryOrImage.getResult();
+
                 }
 
 
@@ -550,7 +798,14 @@ public class MainWindow {
         mat29 = new Mat();
         mat30 = new Mat();
         mat31 = new Mat();
-
+        mat32 = new Mat();
+        mat33 = new Mat();
+        mat34 = new Mat();
+        mat35 = new Mat();
+        mat36 = new Mat();
+        mat37 = new Mat();
+        mat38 = new Mat();
+        mat39 = new Mat();
 
         picture.put("original", original);
         picture.put("1", mat1);
@@ -584,6 +839,14 @@ public class MainWindow {
         picture.put("29", mat29);
         picture.put("30", mat30);
         picture.put("31", mat31);
+        picture.put("32", mat32);
+        picture.put("33", mat33);
+        picture.put("34", mat34);
+        picture.put("35", mat35);
+        picture.put("36", mat36);
+        picture.put("37", mat37);
+        picture.put("38", mat38);
+        picture.put("39", mat39);
 
         cvt.put("COLOR_BGR2BGRA", Imgproc.COLOR_BGR2BGRA);
         cvt.put("COLOR_BGR2HLS", Imgproc.COLOR_BGR2HLS);
