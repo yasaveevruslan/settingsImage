@@ -15,7 +15,8 @@ public class MainWindow {
     public static final String[] elements = {"original", "1", "2", "3", "4", "5", "6", "7", "8", "9",
             "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
             "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
-            "30", "31", "32", "33", "34", "35", "36", "37", "38", "39"};
+            "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
+            "40", "41", "42", "43", "44", "45", "46", "47", "48", "49"};
 
     public static final String[] methods = {"none",
             "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth",
@@ -26,7 +27,8 @@ public class MainWindow {
             "binaryNotFirst", "binaryNotSecond", "binaryNotThird", "binaryNotFourth",
             "binaryAndFirst", "binaryAndSecond", "binaryAndThird", "binaryAndFourth",
             "binaryOrFirst", "binaryOrSecond", "binaryOrThird", "binaryOrFourth",
-            "rectFirst", "rectSecond", "rectThird", "rectFourth"
+            "rectFirst", "rectSecond", "rectThird", "rectFourth",
+            /*"areaFirst", "areaSecond", "areaThird", "areaFourth"*/
     };
 
     public static HashMap<String, Integer> cvt = new HashMap<>();
@@ -41,7 +43,8 @@ public class MainWindow {
     public static Mat original, mat1, mat2, mat3, mat4, mat5, mat6, mat7, mat8, mat9,
             mat10, mat11, mat12, mat13, mat14, mat15, mat16, mat17, mat18, mat19,
             mat20, mat21, mat22, mat23, mat24, mat25, mat26, mat27, mat28, mat29,
-            mat30, mat31, mat32, mat33, mat34, mat35, mat36, mat37, mat38, mat39;
+            mat30, mat31, mat32, mat33, mat34, mat35, mat36, mat37, mat38, mat39,
+            mat40, mat41, mat42, mat43, mat44, mat45, mat46, mat47, mat48, mat49;
 
 
     public static HashMap<String, Mat> picture = new HashMap<>();
@@ -746,7 +749,75 @@ public class MainWindow {
                     objectsMethods.putIfAbsent(lastNameMethod, rectImage);
                 }
             }
-                break;
+            break;
+
+
+
+
+
+            case "areaFirst":
+            {
+                lastNameMethod = nameMethod;
+                AreaWindow.generationWindow(nameMethod, "9", "21");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "21" + ", " + "24");
+
+
+                    AreaImage areaImage = new AreaImage(picture.get("9"));
+                    areaImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                }
+            }
+            break;
+
+            case "areaSecond":
+            {
+                lastNameMethod = nameMethod;
+                AreaWindow.generationWindow(nameMethod, "10", "22");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "22" + ", " + "24");
+
+
+                    AreaImage areaImage = new AreaImage(picture.get("10"));
+                    areaImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                }
+            }
+            break;
+
+            case "areaThird":
+            {
+                lastNameMethod = nameMethod;
+                AreaWindow.generationWindow(nameMethod, "11", "23");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "11" + ", " + "23" + ", " + "24");
+
+
+                    AreaImage areaImage = new AreaImage(picture.get("11"));
+                    areaImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                }
+            }
+            break;
+
+            case "areaFourth":
+            {
+                lastNameMethod = nameMethod;
+                AreaWindow.generationWindow(nameMethod, "12", "24");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "12" + ", " + "24" + ", " + "24");
+
+
+                    AreaImage areaImage = new AreaImage(picture.get("12"));
+                    areaImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                }
+            }
+            break;
         }
         nameMethod = "none";
 
@@ -832,8 +903,15 @@ public class MainWindow {
                     rectImage.execute();
                     resultImage = rectImage.getResult();
 
-                }
+                } else if (object.getValue() instanceof AreaImage) {
 
+                    Mat src = picture.get(lastValues[0]);
+                    AreaImage areaImage = new AreaImage(src);
+                    areaImage.execute();
+                    resultImage = areaImage.getResult();
+                    MainWindow.updateProperty(object.getKey(), lastValues[0] + ", " + lastValues[1] + ", " + areaImage.getArea());
+
+                }
 
                 picture.put(lastValues[1], resultImage.clone());
             }
@@ -883,6 +961,16 @@ public class MainWindow {
         mat37 = new Mat();
         mat38 = new Mat();
         mat39 = new Mat();
+        mat40 = new Mat();
+        mat41 = new Mat();
+        mat42 = new Mat();
+        mat43 = new Mat();
+        mat44 = new Mat();
+        mat45 = new Mat();
+        mat46 = new Mat();
+        mat47 = new Mat();
+        mat48 = new Mat();
+        mat49 = new Mat();
 
         picture.put("original", original);
         picture.put("1", mat1);
@@ -924,6 +1012,16 @@ public class MainWindow {
         picture.put("37", mat37);
         picture.put("38", mat38);
         picture.put("39", mat39);
+        picture.put("40", mat40);
+        picture.put("41", mat41);
+        picture.put("42", mat42);
+        picture.put("43", mat43);
+        picture.put("44", mat44);
+        picture.put("45", mat45);
+        picture.put("46", mat46);
+        picture.put("47", mat47);
+        picture.put("48", mat48);
+        picture.put("49", mat49);
 
         cvt.put("COLOR_BGR2BGRA", Imgproc.COLOR_BGR2BGRA);
         cvt.put("COLOR_BGR2HLS", Imgproc.COLOR_BGR2HLS);
