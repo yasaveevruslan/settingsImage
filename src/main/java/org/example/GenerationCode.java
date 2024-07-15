@@ -5,15 +5,12 @@ import java.util.HashMap;
 
 public class GenerationCode {
 
-    public static void generationCode()
-    {
-        try
-        {
+    public static void generationCode() {
+        try {
             HashMap<String, String> properties = MainWindow.loadProperties();
 
-        }
-        catch (IOException e)
-        {
+
+        } catch (IOException e) {
 
         }
     }

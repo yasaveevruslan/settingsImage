@@ -53,7 +53,6 @@ public class MainWindow {
         createProperties();
 
 
-
         JFrame frame = new JFrame();
         frame.setBounds(0, 0, 1200, 1015);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,9 +68,9 @@ public class MainWindow {
         VideoCapture camera = new VideoCapture(0);
 
         if (!camera.isOpened()) {
-            System.out.println("!!! Did not connect to camera !!!");
+            System.out.println("!!! Камера недоступна !!!");
         } else {
-            System.out.println("found webcam: " + camera);
+            System.out.println("Камера найдена: " + camera);
         }
 
         if (camera.isOpened()) {
@@ -81,7 +80,7 @@ public class MainWindow {
                     initializeMethods();
                     putPicture();
                     camera.read(original);
-//                    System.out.println(objectsMethods.size());
+
                     picture.put("original", original);
 
                     if (picture.get(firstImage).empty()) {
@@ -108,7 +107,8 @@ public class MainWindow {
                         break;
                     }
                 } catch (Exception e) {
-                    e.getLocalizedMessage();
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Произошла ошибка: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
 
 
@@ -128,13 +128,11 @@ public class MainWindow {
             case "none":
                 break;
 
-            case "rotateFirst":
-            {
+            case "rotateFirst": {
                 lastNameMethod = nameMethod;
                 RotateWindow.generationWindow(nameMethod, "original", "31", 0);
 
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "original" + ", " + "1" + ", " + "0");
 
 
@@ -145,13 +143,11 @@ public class MainWindow {
             }
             break;
 
-            case "rotateSecond":
-            {
+            case "rotateSecond": {
                 lastNameMethod = nameMethod;
                 RotateWindow.generationWindow(nameMethod, "1", "2", 0);
 
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "1" + ", " + "2" + ", " + "0");
 
 
@@ -162,13 +158,11 @@ public class MainWindow {
             }
             break;
 
-            case "rotateThird":
-            {
+            case "rotateThird": {
                 lastNameMethod = nameMethod;
                 RotateWindow.generationWindow(nameMethod, "2", "3", 0);
 
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "2" + ", " + "3" + ", " + "0");
 
                     RotateImage rotateImage = new RotateImage(picture.get("2"), 0);
@@ -178,13 +172,11 @@ public class MainWindow {
             }
             break;
 
-            case "rotateFourth":
-            {
+            case "rotateFourth": {
                 lastNameMethod = nameMethod;
                 RotateWindow.generationWindow(nameMethod, "3", "4", 0);
 
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "3" + ", " + "4" + ", " + "0");
 
                     RotateImage rotateImage = new RotateImage(picture.get("3"), 0);
@@ -195,18 +187,10 @@ public class MainWindow {
             break;
 
 
-
-
-
-
-
-
-            case "colorFirst":
-            {
+            case "colorFirst": {
                 lastNameMethod = nameMethod;
                 ColorWindow.generationWindow(nameMethod, "original", "5", 0, 255, 0, 255, 0, 255);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "original" + ", " + "5" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
 
                     ColorImage colorImage = new ColorImage(picture.get("original"), 0, 255, 0, 255, 0, 255);
@@ -219,8 +203,7 @@ public class MainWindow {
             case "colorSecond":
                 lastNameMethod = nameMethod;
                 ColorWindow.generationWindow(nameMethod, "5", "6", 0, 255, 0, 255, 0, 255);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "5" + ", " + "6" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
 
                     ColorImage colorImage = new ColorImage(picture.get("5"), 0, 255, 0, 255, 0, 255);
@@ -232,8 +215,7 @@ public class MainWindow {
             case "colorThird":
                 lastNameMethod = nameMethod;
                 ColorWindow.generationWindow(nameMethod, "6", "7", 0, 255, 0, 255, 0, 255);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "6" + ", " + "7" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
 
                     ColorImage colorImage = new ColorImage(picture.get("6"), 0, 255, 0, 255, 0, 255);
@@ -245,8 +227,7 @@ public class MainWindow {
             case "colorFourth":
                 lastNameMethod = nameMethod;
                 ColorWindow.generationWindow(nameMethod, "7", "8", 0, 255, 0, 255, 0, 255);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "7" + ", " + "8" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
 
                     ColorImage colorImage = new ColorImage(picture.get("7"), 0, 255, 0, 255, 0, 255);
@@ -256,18 +237,10 @@ public class MainWindow {
                 break;
 
 
-
-
-
-
-
-
-            case "cvtFirst":
-            {
+            case "cvtFirst": {
                 lastNameMethod = nameMethod;
                 CvtWindow.generationWindow(nameMethod, "original", "9", "COLOR_BGR2HSV");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "original" + ", " + "9" + ", " + cvt.get("COLOR_BGR2HSV"));
 
 
@@ -278,12 +251,10 @@ public class MainWindow {
             }
             break;
 
-            case "cvtSecond":
-            {
+            case "cvtSecond": {
                 lastNameMethod = nameMethod;
                 CvtWindow.generationWindow(nameMethod, "9", "10", "COLOR_BGR2HSV");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "9" + ", " + "10" + ", " + cvt.get("COLOR_BGR2HSV"));
 
 
@@ -294,12 +265,10 @@ public class MainWindow {
             }
             break;
 
-            case "cvtThird":
-            {
+            case "cvtThird": {
                 lastNameMethod = nameMethod;
                 CvtWindow.generationWindow(nameMethod, "10", "11", "COLOR_BGR2HSV");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "10" + ", " + "11" + ", " + cvt.get("COLOR_BGR2HSV"));
 
 
@@ -310,12 +279,10 @@ public class MainWindow {
             }
             break;
 
-            case "cvtFourth":
-            {
+            case "cvtFourth": {
                 lastNameMethod = nameMethod;
                 CvtWindow.generationWindow(nameMethod, "11", "12", "COLOR_BGR2HSV");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "11" + ", " + "12" + ", " + cvt.get("COLOR_BGR2HSV"));
 
                     CvtImage cvtImage = new CvtImage(picture.get("11"), cvt.get("COLOR_BGR2HSV"));
@@ -326,17 +293,10 @@ public class MainWindow {
             break;
 
 
-
-
-
-
-
-            case "blurFirst":
-            {
+            case "blurFirst": {
                 lastNameMethod = nameMethod;
                 BlurWindow.generationWindow(nameMethod, "original", "13", 1);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "original" + ", " + "13" + ", " + "1");
 
 
@@ -347,12 +307,10 @@ public class MainWindow {
             }
             break;
 
-            case "blurSecond":
-            {
+            case "blurSecond": {
                 lastNameMethod = nameMethod;
                 BlurWindow.generationWindow(nameMethod, "13", "14", 1);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "13" + ", " + "14" + ", " + "1");
 
 
@@ -363,12 +321,10 @@ public class MainWindow {
             }
             break;
 
-            case "blurThird":
-            {
+            case "blurThird": {
                 lastNameMethod = nameMethod;
                 BlurWindow.generationWindow(nameMethod, "14", "15", 1);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "14" + ", " + "15" + ", " + "1");
 
 
@@ -379,12 +335,10 @@ public class MainWindow {
             }
             break;
 
-            case "blurFourth":
-            {
+            case "blurFourth": {
                 lastNameMethod = nameMethod;
                 BlurWindow.generationWindow(nameMethod, "15", "16", 1);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "15" + ", " + "16" + ", " + "1");
 
 
@@ -396,16 +350,10 @@ public class MainWindow {
             break;
 
 
-
-
-
-
-            case "dilateFirst":
-            {
+            case "dilateFirst": {
                 lastNameMethod = nameMethod;
                 DilateWindow.generationWindow(nameMethod, "original", "17", 1);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "original" + ", " + "17" + ", " + "1");
 
 
@@ -416,12 +364,10 @@ public class MainWindow {
             }
             break;
 
-            case "dilateSecond":
-            {
+            case "dilateSecond": {
                 lastNameMethod = nameMethod;
                 DilateWindow.generationWindow(nameMethod, "17", "18", 1);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "17" + ", " + "18" + ", " + "1");
 
 
@@ -432,12 +378,10 @@ public class MainWindow {
             }
             break;
 
-            case "dilateThird":
-            {
+            case "dilateThird": {
                 lastNameMethod = nameMethod;
                 DilateWindow.generationWindow(nameMethod, "18", "19", 1);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "18" + ", " + "19" + ", " + "1");
 
 
@@ -448,12 +392,10 @@ public class MainWindow {
             }
             break;
 
-            case "dilateFourth":
-            {
+            case "dilateFourth": {
                 lastNameMethod = nameMethod;
                 DilateWindow.generationWindow(nameMethod, "19", "20", 1);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "19" + ", " + "20" + ", " + "1");
 
 
@@ -465,19 +407,10 @@ public class MainWindow {
             break;
 
 
-
-
-
-
-
-
-
-            case "binaryNotFirst":
-            {
+            case "binaryNotFirst": {
                 lastNameMethod = nameMethod;
                 BinaryNotWindow.generationWindow(nameMethod, "9", "21");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "9" + ", " + "21");
 
 
@@ -488,12 +421,10 @@ public class MainWindow {
             }
             break;
 
-            case "binaryNotSecond":
-            {
+            case "binaryNotSecond": {
                 lastNameMethod = nameMethod;
                 BinaryNotWindow.generationWindow(nameMethod, "10", "22");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "10" + ", " + "22");
 
 
@@ -504,12 +435,10 @@ public class MainWindow {
             }
             break;
 
-            case "binaryNotThird":
-            {
+            case "binaryNotThird": {
                 lastNameMethod = nameMethod;
                 BinaryNotWindow.generationWindow(nameMethod, "11", "23");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "11" + ", " + "23");
 
 
@@ -520,12 +449,10 @@ public class MainWindow {
             }
             break;
 
-            case "binaryNotFourth":
-            {
+            case "binaryNotFourth": {
                 lastNameMethod = nameMethod;
                 BinaryNotWindow.generationWindow(nameMethod, "12", "24");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "12" + ", " + "24");
 
 
@@ -537,19 +464,10 @@ public class MainWindow {
             break;
 
 
-
-
-
-
-
-
-
-            case "binaryAndFirst":
-            {
+            case "binaryAndFirst": {
                 lastNameMethod = nameMethod;
                 BinaryAndWindow.generationWindow(nameMethod, "9", "9", "25");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "9" + ", " + "9" + ", " + "25");
 
 
@@ -560,12 +478,10 @@ public class MainWindow {
             }
             break;
 
-            case "binaryAndSecond":
-            {
+            case "binaryAndSecond": {
                 lastNameMethod = nameMethod;
                 BinaryAndWindow.generationWindow(nameMethod, "10", "10", "26");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "10" + ", " + "10" + ", " + "26");
 
 
@@ -576,12 +492,10 @@ public class MainWindow {
             }
             break;
 
-            case "binaryAndThird":
-            {
+            case "binaryAndThird": {
                 lastNameMethod = nameMethod;
                 BinaryAndWindow.generationWindow(nameMethod, "11", "11", "27");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "11" + ", " + "11" + ", " + "27");
 
 
@@ -592,12 +506,10 @@ public class MainWindow {
             }
             break;
 
-            case "binaryAndFourth":
-            {
+            case "binaryAndFourth": {
                 lastNameMethod = nameMethod;
                 BinaryAndWindow.generationWindow(nameMethod, "12", "12", "28");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "12" + ", " + "12" + ", " + "28");
 
 
@@ -609,18 +521,10 @@ public class MainWindow {
             break;
 
 
-
-
-
-
-
-
-            case "binaryOrFirst":
-            {
+            case "binaryOrFirst": {
                 lastNameMethod = nameMethod;
                 BinaryOrWindow.generationWindow(nameMethod, "9", "9", "29");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "9" + ", " + "9" + ", " + "29");
 
 
@@ -631,12 +535,10 @@ public class MainWindow {
             }
             break;
 
-            case "binaryOrSecond":
-            {
+            case "binaryOrSecond": {
                 lastNameMethod = nameMethod;
                 BinaryOrWindow.generationWindow(nameMethod, "10", "10", "30");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "10" + ", " + "10" + ", " + "30");
 
 
@@ -647,12 +549,10 @@ public class MainWindow {
             }
             break;
 
-            case "binaryOrThird":
-            {
+            case "binaryOrThird": {
                 lastNameMethod = nameMethod;
                 BinaryOrWindow.generationWindow(nameMethod, "11", "11", "31");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "11" + ", " + "11" + ", " + "31");
 
 
@@ -663,12 +563,10 @@ public class MainWindow {
             }
             break;
 
-            case "binaryOrFourth":
-            {
+            case "binaryOrFourth": {
                 lastNameMethod = nameMethod;
                 BinaryOrWindow.generationWindow(nameMethod, "12", "12", "32");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "12" + ", " + "12" + ", " + "32");
 
 
@@ -687,22 +585,19 @@ public class MainWindow {
 
     private static void putPicture() throws IOException {
         if (!objectsMethods.isEmpty()) {
-            for (Map.Entry<String, Object> object : objectsMethods.entrySet())
-            {
+            for (Map.Entry<String, Object> object : objectsMethods.entrySet()) {
 //                Object object = objectsMethods.get(0);
                 Mat resultImage = new Mat();
                 String[] lastValues = loadProperty(object.getKey()).split(", ");
                 System.out.println(Arrays.toString(lastValues));
 
-                if (object.getValue() instanceof RotateImage)
-                {
+                if (object.getValue() instanceof RotateImage) {
                     Mat src = picture.get(lastValues[0]);
                     RotateImage rotateObject = new RotateImage(src, Integer.parseInt(lastValues[2]));
                     rotateObject.execute();
                     resultImage = rotateObject.getResult();
 
-                } else if (object.getValue() instanceof ColorImage)
-                {
+                } else if (object.getValue() instanceof ColorImage) {
                     Mat src = picture.get(lastValues[0]);
                     ColorImage colorObject = new ColorImage(src,
                             Integer.parseInt(lastValues[2]), Integer.parseInt(lastValues[3]),
@@ -857,22 +752,17 @@ public class MainWindow {
         cvt.put("COLOR_BGR2YUV", Imgproc.COLOR_BGR2YUV);
     }
 
-    private static void createProperties() throws IOException {
+    public static void createProperties() throws IOException {
 
         String appConfigPath = "src/main/java/org/example/app.properties";
 
         File file = new File(appConfigPath);
-        if(!file.exists())
-        {
+        if (!file.exists()) {
             Properties properties = new Properties();
             FileOutputStream fileOutputStream = new FileOutputStream(appConfigPath);
 
-
-
             for (String method : methods) {
-                if (!method.equalsIgnoreCase("none")) {
-                    properties.setProperty(method, "0");
-                }
+                properties.setProperty(method, "0");
             }
 
             properties.store(fileOutputStream, "File to store settings");
@@ -915,7 +805,7 @@ public class MainWindow {
         fileOutputStream.close();
     }
 
-    public static HashMap<String,String> loadProperties() throws IOException {
+    public static HashMap<String, String> loadProperties() throws IOException {
         String appConfigPath = "src/main/java/org/example/app.properties";
 
         Properties properties = new Properties();
@@ -925,10 +815,9 @@ public class MainWindow {
 
         fileInputStream.close();
 
-        HashMap<String,String> propertiesMap = new HashMap<>();
+        HashMap<String, String> propertiesMap = new HashMap<>();
 
-        for (String name : methods)
-        {
+        for (String name : methods) {
             propertiesMap.put(name, properties.getProperty(name, "0"));
         }
 
