@@ -17,14 +17,16 @@ public class MainWindow {
             "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
             "30", "31", "32", "33", "34", "35", "36", "37", "38", "39"};
 
-    public static final String[] methods = {"none", "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth",
+    public static final String[] methods = {"none",
+            "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth",
             "colorFirst", "colorSecond", "colorThird", "colorFourth",
             "cvtFirst", "cvtSecond", "cvtThird", "cvtFourth",
             "blurFirst", "blurSecond", "blurThird", "blurFourth",
             "dilateFirst", "dilateSecond", "dilateThird", "dilateFourth",
             "binaryNotFirst", "binaryNotSecond", "binaryNotThird", "binaryNotFourth",
             "binaryAndFirst", "binaryAndSecond", "binaryAndThird", "binaryAndFourth",
-            "binaryOrFirst", "binaryOrSecond", "binaryOrThird", "binaryOrFourth"
+            "binaryOrFirst", "binaryOrSecond", "binaryOrThird", "binaryOrFourth",
+            "rectFirst", "rectSecond", "rectThird", "rectFourth"
     };
 
     public static HashMap<String, Integer> cvt = new HashMap<>();
@@ -678,6 +680,73 @@ public class MainWindow {
                 }
             }
             break;
+
+
+
+
+
+
+
+
+            case "rectFirst":
+            {
+                lastNameMethod = nameMethod;
+                RectWindow.generationWindow(nameMethod, "original", "33", 0, 0, 640, 480, 640, 480);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "33" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
+
+                    RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
+                    rectImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                }
+            }
+            break;
+
+            case "rectSecond":
+            {
+                lastNameMethod = nameMethod;
+                RectWindow.generationWindow(nameMethod, "original", "34", 0, 0, 640, 480, 640, 480);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "34" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
+
+                    RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
+                    rectImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                }
+            }
+            break;
+
+            case "rectThird":
+            {
+                lastNameMethod = nameMethod;
+                RectWindow.generationWindow(nameMethod, "original", "35", 0, 0, 640, 480, 640, 480);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "35" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
+
+                    RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
+                    rectImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                }
+            }
+            break;
+
+            case "rectFourth":
+            {
+                lastNameMethod = nameMethod;
+                RectWindow.generationWindow(nameMethod, "original", "36", 0, 0, 640, 480, 640, 480);
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "36" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
+
+                    RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
+                    rectImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                }
+            }
+                break;
         }
         nameMethod = "none";
 
@@ -754,6 +823,14 @@ public class MainWindow {
                     BinaryOrImage binaryOrImage = new BinaryOrImage(src, src2);
                     binaryOrImage.execute();
                     resultImage = binaryOrImage.getResult();
+
+                } else if (object.getValue() instanceof RectImage) {
+
+                    Mat src = picture.get(lastValues[0]);
+                    RectImage rectImage = new RectImage(src, Integer.parseInt(lastValues[2]),
+                            Integer.parseInt(lastValues[3]), Integer.parseInt(lastValues[4]), Integer.parseInt(lastValues[5]));
+                    rectImage.execute();
+                    resultImage = rectImage.getResult();
 
                 }
 
