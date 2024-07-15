@@ -691,7 +691,7 @@ public class MainWindow {
             {
 //                Object object = objectsMethods.get(0);
                 Mat resultImage = new Mat();
-                String[] lastValues = loadProperties(object.getKey()).split(", ");
+                String[] lastValues = loadProperty(object.getKey()).split(", ");
                 System.out.println(Arrays.toString(lastValues));
 
                 if (object.getValue() instanceof RotateImage)
@@ -861,24 +861,29 @@ public class MainWindow {
 
         String appConfigPath = "src/main/java/org/example/app.properties";
 
-        Properties properties = new Properties();
-        FileOutputStream fileOutputStream = new FileOutputStream(appConfigPath);
+        File file = new File(appConfigPath);
+        if(!file.exists())
+        {
+            Properties properties = new Properties();
+            FileOutputStream fileOutputStream = new FileOutputStream(appConfigPath);
 
 
 
-        for (String method : methods) {
-            if (!method.equalsIgnoreCase("none")) {
-                properties.setProperty(method, "0");
+            for (String method : methods) {
+                if (!method.equalsIgnoreCase("none")) {
+                    properties.setProperty(method, "0");
+                }
             }
+
+            properties.store(fileOutputStream, "File to store settings");
+
+            fileOutputStream.close();
         }
 
-        properties.store(fileOutputStream, "File to store settings");
-
-        fileOutputStream.close();
     }
 
 
-    public static String loadProperties(String key) throws IOException {
+    public static String loadProperty(String key) throws IOException {
         String appConfigPath = "src/main/java/org/example/app.properties";
 
         Properties properties = new Properties();
@@ -908,5 +913,25 @@ public class MainWindow {
         properties.store(fileOutputStream, "File to store settings");
 
         fileOutputStream.close();
+    }
+
+    public static HashMap<String,String> loadProperties() throws IOException {
+        String appConfigPath = "src/main/java/org/example/app.properties";
+
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream(appConfigPath);
+
+        properties.load(fileInputStream);
+
+        fileInputStream.close();
+
+        HashMap<String,String> propertiesMap = new HashMap<>();
+
+        for (String name : methods)
+        {
+            propertiesMap.put(name, properties.getProperty(name, "0"));
+        }
+
+        return propertiesMap;
     }
 }

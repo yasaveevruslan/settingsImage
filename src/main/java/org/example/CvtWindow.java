@@ -1,9 +1,6 @@
 package org.example;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -61,7 +58,7 @@ class PanelCvt extends JPanel implements ActionListener {
     {
         try
         {
-            String[] lastValues = MainWindow.loadProperties(MainWindow.nameMethod).split(", ");
+            String[] lastValues = MainWindow.loadProperty(MainWindow.nameMethod).split(", ");
             if(lastValues.length>2)
             {
                 String settingValue = lastValues[3];
