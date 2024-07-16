@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class BinaryNotWindow {
@@ -39,6 +41,8 @@ public class BinaryNotWindow {
 }
 
 class PanelBinaryNot extends JPanel implements ActionListener {
+
+    private static final Logger logger = Logger.getLogger(PanelBinaryNot.class.getName());
 
     private String name, imageFirst, imageSecond;
     public PanelBinaryNot(String name, String imageFirst, String imageSecond)
@@ -73,12 +77,13 @@ class PanelBinaryNot extends JPanel implements ActionListener {
         }
         catch (IOException e)
         {
-            e.getLocalizedMessage();
+            logger.warning("Ошибка при установке начальных значений для окна для BinaryNot на изображении: " + e.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при установке начальных значений для окна для BinaryNot на изображении: " + e.getLocalizedMessage()));
         }
 
-        JLabel first = new JLabel("first");
+        JLabel first = new JLabel("Источник");
         firstImage = new JComboBox(MainWindow.elements);
-        JLabel second = new JLabel("end");
+        JLabel second = new JLabel("Резуьтат");
         secondImage = new JComboBox(MainWindow.elements);
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
@@ -104,7 +109,8 @@ class PanelBinaryNot extends JPanel implements ActionListener {
             imageSecond = (String) secondImage.getSelectedItem();
             MainWindow.updateProperty(name, imageFirst + ", " + imageSecond);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            logger.warning("Ошибка в обработке значений с окна PanelBinaryNot " + ex.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка в обработке значений с окна PanelBinaryNot " + ex.getLocalizedMessage()));
         }
 
     }

@@ -9,9 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainPanel extends JPanel implements ActionListener {
 
+    private static final Logger logger = Logger.getLogger(MainPanel.class.getName());
 
     private BufferedImage image, imageCopy;
     JComboBox<String> boxFirst, boxSecond, boxSettings;
@@ -28,14 +31,14 @@ public class MainPanel extends JPanel implements ActionListener {
     public void setFace(BufferedImage img, BufferedImage imgCopy) {
         image = img;
         imageCopy = imgCopy;
-
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         if (this.image == null) {
-            System.out.println("!! The JPanel image is null !!");
+            logger.warning("Изображение на панели пустое");
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Изображение на панели пустое"));
             return;
         }
         g.drawImage(this.image, 5, 5, this.image.getWidth(), this.image.getHeight(), null);
@@ -46,7 +49,7 @@ public class MainPanel extends JPanel implements ActionListener {
     }
 
     public void generationElements() {
-        JLabel nameFirst = new JLabel("First image");
+        JLabel nameFirst = new JLabel("Первое изображение");
         boxFirst = new JComboBox<>(MainWindow.elements);
         boxFirst.addActionListener(this);
         nameFirst.setBounds(700, 5, 100, 50);
@@ -54,7 +57,7 @@ public class MainPanel extends JPanel implements ActionListener {
         super.add(nameFirst);
         super.add(boxFirst);
 
-        JLabel nameSecond = new JLabel("Second image");
+        JLabel nameSecond = new JLabel("Второе изображение");
         boxSecond = new JComboBox<>(MainWindow.elements);
         boxSecond.addActionListener(this);
         nameSecond.setBounds(700, 490, 100, 50);
@@ -62,7 +65,7 @@ public class MainPanel extends JPanel implements ActionListener {
         super.add(nameSecond);
         super.add(boxSecond);
 
-        JLabel nameSittings = new JLabel("Settings image");
+        JLabel nameSittings = new JLabel("Настройка изображения");
         boxSettings = new JComboBox<>(MainWindow.methods);
         boxSettings.addActionListener(this);
         nameSittings.setBounds(700, 245, 100, 50);
@@ -70,7 +73,7 @@ public class MainPanel extends JPanel implements ActionListener {
         super.add(nameSittings);
         super.add(boxSettings);
 
-        JButton open = new JButton("add method");
+        JButton open = new JButton("Добавить метод");
         open.addActionListener(e -> {
             MainWindow.nameMethod = (String) (boxSettings.getSelectedItem());
             System.out.println((String) (boxSettings.getSelectedItem()));
@@ -93,7 +96,8 @@ public class MainPanel extends JPanel implements ActionListener {
             try {
                 downloadFile(appConfigPath);
             } catch (IOException ex) {
-                ex.getLocalizedMessage();
+                logger.severe("Ошибка при скачивании файла с настройками: " + ex.getLocalizedMessage());
+                MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Ошибка при скачивании файла с настройками: " + ex.getLocalizedMessage()));
             }
         });
 
@@ -111,8 +115,8 @@ public class MainPanel extends JPanel implements ActionListener {
                 try {
                     changeFileProperty(selectedFile);
                 } catch (IOException ex) {
-                    ex.getLocalizedMessage();
-                    JOptionPane.showMessageDialog(null, "Ошибка при изменении файла: " + ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    logger.severe("Ошибка при изменении файла: " + ex.getMessage());
+                    MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Ошибка при изменении файла: " + ex.getMessage()));
                 }
             }
         });
@@ -137,6 +141,8 @@ public class MainPanel extends JPanel implements ActionListener {
         File file = new File(filePath);
 
         if (!file.exists()) {
+            logger.info("Файл app.properties для скачивания не найден");
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.INFO, "Файл app.properties для скачивания не найден"));
             JOptionPane.showMessageDialog(null, "Файл для скачивания не найден", "Ошибка скачивания", JOptionPane.ERROR_MESSAGE);
             MainWindow.createProperties();
         }
@@ -155,8 +161,9 @@ public class MainPanel extends JPanel implements ActionListener {
                     out.write(data, 0, bytesRead);
                 }
                 JOptionPane.showMessageDialog(null, "Файл успешно скачан", "Успех", JOptionPane.INFORMATION_MESSAGE);
-
             } catch (IOException e) {
+                logger.warning("Произошла ошибка скачивания: " + e.getLocalizedMessage());
+                MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Произошла ошибка скачивания: " + e.getLocalizedMessage()));
                 JOptionPane.showMessageDialog(null, "Произошла ошибка скачивания: " + e.getLocalizedMessage(), "Ошибка скачивания", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -188,7 +195,6 @@ public class MainPanel extends JPanel implements ActionListener {
             missingMethods.removeAll(keys);
 
             if (!missingMethods.isEmpty()) {
-                System.out.println("Отсутствующие методы: " + missingMethods);
                 for (String method : missingMethods) {
                     properties.setProperty(method, "0");
                 }
@@ -206,7 +212,8 @@ public class MainPanel extends JPanel implements ActionListener {
                 properties.store(fos, "Updated properties");
             }
             JOptionPane.showMessageDialog(null, "Данные успешно записаны в файл app.properties", "Успех", JOptionPane.INFORMATION_MESSAGE);
-
+            logger.fine("Данные успешно записаны в файл app.properties");
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.FINE, "Данные успешно записаны в файл app.properties"));
         }
     }
 }

@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class BlurWindow {
@@ -44,6 +46,8 @@ public class BlurWindow {
 }
 
 class PanelBlur extends JPanel implements ActionListener {
+
+    private static final Logger logger = Logger.getLogger(PanelBlur.class.getName());
 
     private String name, imageFirst, imageSecond;
     private int cofSize;
@@ -82,12 +86,13 @@ class PanelBlur extends JPanel implements ActionListener {
         }
         catch (IOException e)
         {
-            e.getLocalizedMessage();
+            logger.warning("Ошибка при установке начальных значений для окна для размытия изображения: " + e.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при установке начальных значений для окна для размытия изображения: " + e.getLocalizedMessage()));
         }
 
-        JLabel first = new JLabel("first");
+        JLabel first = new JLabel("Источник");
         firstImage = new JComboBox(MainWindow.elements);
-        JLabel second = new JLabel("end");
+        JLabel second = new JLabel("Результат");
         secondImage = new JComboBox(MainWindow.elements);
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
@@ -113,18 +118,17 @@ class PanelBlur extends JPanel implements ActionListener {
 
         slider.setMajorTickSpacing(5);
         slider.setMinorTickSpacing(5);
-        slider.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
+        slider.addChangeListener(e -> {
 
-                try {
-                    degrees.setText("Value of the slider is: " + ((JSlider)e.getSource()).getValue());
-                    cofSize = ((JSlider)e.getSource()).getValue();
-                    MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + cofSize);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-
+            try {
+                degrees.setText("Значение слайдера: " + ((JSlider)e.getSource()).getValue());
+                cofSize = ((JSlider)e.getSource()).getValue();
+                MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + cofSize);
+            } catch (IOException ex) {
+                logger.severe("Ошибка в обработке значений со слайдера в BlurWindow" + ex.getLocalizedMessage());
+                MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Ошибка в обработке значений со слайдера в BlurWindow" + ex.getLocalizedMessage()) );
             }
+
         });
         slider.setMajorTickSpacing(5);
         slider.setPaintTicks(true);
@@ -142,7 +146,8 @@ class PanelBlur extends JPanel implements ActionListener {
             imageSecond = (String) secondImage.getSelectedItem();
             MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + cofSize);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            logger.warning("Ошибка в обработке значений с окна BlurWindow " + ex.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка в обработке значений с окна BlurWindow " + ex.getLocalizedMessage()));
         }
 
     }

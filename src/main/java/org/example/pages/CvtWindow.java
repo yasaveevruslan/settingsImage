@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CvtWindow {
 
@@ -41,6 +43,8 @@ public class CvtWindow {
 }
 
 class PanelCvt extends JPanel implements ActionListener {
+
+    private static final Logger logger = Logger.getLogger(PanelCvt.class.getName());
 
     private String name, imageFirst, imageSecond;
     private String setting;
@@ -82,14 +86,15 @@ class PanelCvt extends JPanel implements ActionListener {
         }
         catch (IOException e)
         {
-            e.getLocalizedMessage();
+            logger.warning("Ошибка при установке начальных значений для окна для метода cvtColor: " + e.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при установке начальных значений для окна для метода cvtColor: " + e.getLocalizedMessage()));
         }
 
-        JLabel first = new JLabel("first");
+        JLabel first = new JLabel("Источник");
         firstImage = new JComboBox(MainWindow.elements);
-        JLabel second = new JLabel("end");
+        JLabel second = new JLabel("Результат");
         secondImage = new JComboBox(MainWindow.elements);
-        JLabel cvt = new JLabel("svtColor");
+        JLabel cvt = new JLabel("Выберите цветовое пространство: ");
         cvtColor = new JComboBox(MainWindow.cvt.keySet().toArray(new String[0]));
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
@@ -122,9 +127,9 @@ class PanelCvt extends JPanel implements ActionListener {
             cvtCode = MainWindow.cvt.get(setting);
             MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + cvtCode + ", " + setting);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            logger.warning("Ошибка в обработке значений с окна CvtWindow " + ex.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка в обработке значений с окна CvtWindow " + ex.getLocalizedMessage()));
         }
-
     }
 
 }

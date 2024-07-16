@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class ColorWindow {
@@ -54,6 +56,8 @@ public class ColorWindow {
 }
 
 class ColorPanel extends JPanel implements ActionListener, ChangeListener {
+
+    private static final Logger logger = Logger.getLogger(ColorPanel.class.getName());
 
     private String name, imageFirst, imageSecond;
     private int minRed, maxRed, minGreen, maxGreen, minBlue, maxBlue;
@@ -103,12 +107,13 @@ class ColorPanel extends JPanel implements ActionListener, ChangeListener {
         }
         catch (IOException e)
         {
-            e.getLocalizedMessage();
+            logger.warning("Ошибка при установке начальных значений для окна для создания бинарной маски(InRange): " + e.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при установке начальных значений для окна для создания бинарной маски(InRange): " + e.getLocalizedMessage()));
         }
 
-        JLabel first = new JLabel("first");
+        JLabel first = new JLabel("Источник");
         firstImage = new JComboBox(MainWindow.elements);
-        JLabel second = new JLabel("end");
+        JLabel second = new JLabel("Результат");
         secondImage = new JComboBox(MainWindow.elements);
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
@@ -241,22 +246,22 @@ class ColorPanel extends JPanel implements ActionListener, ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         try {
-            labelMinRed.setText("min Red: " + sliderMinRed.getValue());
+            labelMinRed.setText("мин Red: " + sliderMinRed.getValue());
             minRed = sliderMinRed.getValue();
 
-            labelMaxRed.setText("max Red: " + sliderMaxRed.getValue());
+            labelMaxRed.setText("макс Red: " + sliderMaxRed.getValue());
             maxRed = sliderMaxRed.getValue();
 
-            labelMinGreen.setText("min Green: " + sliderMinGreen.getValue());
+            labelMinGreen.setText("мин Green: " + sliderMinGreen.getValue());
             minGreen = sliderMinGreen.getValue();
 
-            labelMaxGreen.setText("max Green: " + sliderMaxGreen.getValue());
+            labelMaxGreen.setText("макс Green: " + sliderMaxGreen.getValue());
             maxGreen = sliderMaxGreen.getValue();
 
-            labelMinBlue.setText("min Blue: " + sliderMinBlue.getValue());
+            labelMinBlue.setText("мин Blue: " + sliderMinBlue.getValue());
             minBlue = sliderMinBlue.getValue();
 
-            labelMaxBlue.setText("max Blue: " + sliderMaxBlue.getValue());
+            labelMaxBlue.setText("макс Blue: " + sliderMaxBlue.getValue());
             maxBlue = sliderMaxBlue.getValue();
 
             MainWindow.updateProperty(name, imageFirst + ", " + imageSecond
@@ -264,7 +269,8 @@ class ColorPanel extends JPanel implements ActionListener, ChangeListener {
                     + ", " + minGreen + ", " + maxGreen
                     + ", " + minBlue + ", " + maxBlue);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            logger.warning("Ошибка в обновлении значений с окна ColorWindow " + ex.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка в обновлении значений с окна ColorWindow " + ex.getLocalizedMessage()));
         }
     }
 
@@ -282,7 +288,8 @@ class ColorPanel extends JPanel implements ActionListener, ChangeListener {
         }
         catch (IOException ex)
         {
-            throw new RuntimeException(ex);
+            logger.warning("Ошибка в обработке значений с окна ColorWindow " + ex.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка в обработке значений с окна ColorWindow " + ex.getLocalizedMessage()));
         }
 
     }

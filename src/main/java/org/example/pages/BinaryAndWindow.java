@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class BinaryAndWindow {
@@ -42,6 +44,8 @@ public class BinaryAndWindow {
 }
 
 class PanelBinaryAnd extends JPanel implements ActionListener {
+
+    private static final Logger logger = Logger.getLogger(PanelBinaryAnd.class.getName());
 
     private String name, imageFirst, imageSecond, imageThird;
     public PanelBinaryAnd(String name, String imageFirst, String imageSecond, String imageThird)
@@ -79,14 +83,15 @@ class PanelBinaryAnd extends JPanel implements ActionListener {
         }
         catch (IOException e)
         {
-            e.getLocalizedMessage();
+            logger.warning("Ошибка при установке начальных значений для окна для BinaryAnd на изображении: " + e.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при установке начальных значений для окна для BinaryAnd на изображении: " + e.getLocalizedMessage()));
         }
 
-        JLabel first = new JLabel("first");
+        JLabel first = new JLabel("Первый источник");
         firstImage = new JComboBox(MainWindow.elements);
-        JLabel second = new JLabel("second");
+        JLabel second = new JLabel("Второй источник");
         secondImage = new JComboBox(MainWindow.elements);
-        JLabel third = new JLabel("end");
+        JLabel third = new JLabel("Результат");
         thirdImage = new JComboBox(MainWindow.elements);
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
@@ -119,7 +124,8 @@ class PanelBinaryAnd extends JPanel implements ActionListener {
             imageThird = (String) thirdImage.getSelectedItem();
             MainWindow.updateProperty(name, imageFirst + ", " + imageThird + ", " + imageSecond);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            logger.warning("Ошибка в обработке значений с окна PanelBinaryAnd " + ex.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка в обработке значений с окна PanelBinaryAnd " + ex.getLocalizedMessage()));
         }
 
     }

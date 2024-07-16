@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class RotateWindow {
@@ -44,6 +46,8 @@ public class RotateWindow {
 }
 
 class Panel extends JPanel implements ActionListener {
+
+    private static final Logger logger = Logger.getLogger(Panel.class.getName());
 
     private String name, imageFirst, imageSecond;
     private int degreesPosition;
@@ -82,12 +86,13 @@ class Panel extends JPanel implements ActionListener {
         }
         catch (IOException e)
         {
-            e.getLocalizedMessage();
+            logger.warning("Ошибка при установке начальных значений для окна для поворота изображения: " + e.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при установке начальных значений для окна для поворота изображения: " + e.getLocalizedMessage()));
         }
 
-        JLabel first = new JLabel("first");
+        JLabel first = new JLabel("Источник");
         firstImage = new JComboBox(MainWindow.elements);
-        JLabel second = new JLabel("end");
+        JLabel second = new JLabel("Результат");
         secondImage = new JComboBox(MainWindow.elements);
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
@@ -113,18 +118,16 @@ class Panel extends JPanel implements ActionListener {
 
         slider.setMajorTickSpacing(45);
         slider.setMinorTickSpacing(5);
-        slider.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-
-                try {
-                    degrees.setText("Value of the slider is: " + ((JSlider)e.getSource()).getValue());
-                    degreesPosition = ((JSlider)e.getSource()).getValue();
-                    MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + degreesPosition);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-
+        slider.addChangeListener(e -> {
+            try {
+                degrees.setText("Значение слайдера: " + ((JSlider)e.getSource()).getValue());
+                degreesPosition = ((JSlider)e.getSource()).getValue();
+                MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + degreesPosition);
+            } catch (IOException ex) {
+                logger.severe("Ошибка в обработке значений со слайдера в RotateWindow" + ex.getLocalizedMessage());
+                MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Ошибка в обработке значений со слайдера в RotateWindow" + ex.getLocalizedMessage()) );
             }
+
         });
         slider.setMajorTickSpacing(5);
         slider.setPaintTicks(true);
@@ -142,7 +145,8 @@ class Panel extends JPanel implements ActionListener {
             imageSecond = (String) secondImage.getSelectedItem();
             MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + degreesPosition);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            logger.severe("Ошибка в обработке значений с окна RotateWindow " + ex.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Ошибка в обработке значений с окна RotateWindow " + ex.getLocalizedMessage()));
         }
 
     }

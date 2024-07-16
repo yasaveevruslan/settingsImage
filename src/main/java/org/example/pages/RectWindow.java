@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class RectWindow {
@@ -54,6 +56,8 @@ public class RectWindow {
 }
 
 class RectPanel extends JPanel implements ActionListener, ChangeListener {
+
+    private static final Logger logger = Logger.getLogger(RectPanel.class.getName());
 
     private String name, imageFirst, imageSecond;
     private int x, y, width, height, mainWidth, mainHeight;
@@ -103,12 +107,13 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
         }
         catch (IOException e)
         {
-            e.getLocalizedMessage();
+            logger.warning("Ошибка при установке начальных значений для окна для обрезки изображения: " + e.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при установке начальных значений для окна для обрезки изображения: " + e.getLocalizedMessage()));
         }
 
-        JLabel first = new JLabel("first");
+        JLabel first = new JLabel("Источник");
         firstImage = new JComboBox(MainWindow.elements);
-        JLabel second = new JLabel("end");
+        JLabel second = new JLabel("Результат");
         secondImage = new JComboBox(MainWindow.elements);
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
@@ -209,11 +214,11 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
             y = sliderY.getValue();
 
             int newWidth = mainWidth < x + sliderWidth.getValue() ? mainWidth - x : sliderWidth.getValue();
-            labelWidth.setText("Width: " + newWidth);
+            labelWidth.setText("Ширина: " + newWidth);
             width = newWidth;
 
             int newHeight = mainHeight < y + sliderHeight.getValue() ? mainHeight - y : sliderHeight.getValue();
-            labelHeight.setText("Height: " + newHeight);
+            labelHeight.setText("Высота: " + newHeight);
             height = newHeight;
 
 
@@ -222,7 +227,8 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
                     + ", " + width + ", " + height
                     + ", " + mainWidth + ", " + mainHeight);
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            logger.warning("Ошибка при обновлении значений с окна для обрезки изображения: " + ex.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при обновлении значений с окна для обрезки изображения: " + ex.getLocalizedMessage()));
         }
     }
 
@@ -240,7 +246,8 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
         }
         catch (IOException ex)
         {
-            throw new RuntimeException(ex);
+            logger.warning("Ошибка в обработке значений с окна RectWindow " + ex.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка в обработке значений с окна RectWindow " + ex.getLocalizedMessage()));
         }
 
     }

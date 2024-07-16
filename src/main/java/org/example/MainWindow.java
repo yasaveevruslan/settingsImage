@@ -11,8 +11,15 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class MainWindow {
+
+    private static final Logger logger = Logger.getLogger(MainWindow.class.getName());
+    public static FileHandler fileHandler;
 
     public static final String[] elements = {"original", "1", "2", "3", "4", "5", "6", "7", "8", "9",
             "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
@@ -52,12 +59,18 @@ public class MainWindow {
 
     public static HashMap<String, Mat> picture = new HashMap<>();
 
-
     public static void main(String[] args) throws Exception {
 
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         initializePicture();
 
+        try {
+            fileHandler = new FileHandler("log.log");
+            fileHandler.setFormatter(new SimpleFormatter());
+            logger.addHandler(fileHandler);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         createProperties();
 
 
@@ -76,56 +89,59 @@ public class MainWindow {
         VideoCapture camera = new VideoCapture(0);
 
         if (!camera.isOpened()) {
-            System.out.println("!!! Камера недоступна !!!");
-        } else {
-            System.out.println("Камера найдена: " + camera);
+            logger.severe("Камера недоступна");
+            fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Камера недоступна"));
+            return;
         }
 
-        if (camera.isOpened()) {
-            Thread.sleep(200);
-            while (true) {
-                try {
-                    initializeMethods();
-                    putPicture();
-                    camera.read(original);
+        logger.info("Камера найдена: " + camera);
 
-                    picture.put("original", original);
+        while (true) {
+            try {
+                initializeMethods();
+                putPicture();
 
-                    if (picture.get(firstImage).empty()) {
-                        camera.read(picture.get(firstImage));
-                    }
-
-                    if (picture.get(secondImage).empty()) {
-                        camera.read(picture.get(secondImage));
-                    }
-
-                    if (!original.empty()) {
-
-                        matToBufferedImageConverter.setMatrix(picture.get(firstImage), ".jpg");
-                        BufferedImage bufImgFirst = matToBufferedImageConverter.getBufferedImage();
-
-                        matToBufferedImageConverter2.setMatrix(picture.get(secondImage), ".jpg");
-                        BufferedImage bufImgSecond = matToBufferedImageConverter2.getBufferedImage();
-
-                        facePanel.setFace(bufImgFirst, bufImgSecond);
-                        facePanel.repaint();
-                    } else {
-                        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        System.exit(1);
-                        break;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Произошла ошибка: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+                if (!camera.read(original)) {
+                    logger.warning("Не удалось захватить кадр из камеры");
+                    fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Не удалось захватить кадр из камеры"));
+                    JOptionPane.showMessageDialog(null, "Не удалось захватить кадр из камеры", "Предупреждение", JOptionPane.WARNING_MESSAGE);
+                    break;
                 }
 
+                if (picture.get(firstImage).empty()) {
+                    camera.read(picture.get(firstImage));
+                }
 
+                if (picture.get(secondImage).empty()) {
+                    camera.read(picture.get(secondImage));
+                }
+
+                if (!original.empty()) {
+
+                    matToBufferedImageConverter.setMatrix(picture.get(firstImage), ".jpg");
+                    BufferedImage bufImgFirst = matToBufferedImageConverter.getBufferedImage();
+
+                    matToBufferedImageConverter2.setMatrix(picture.get(secondImage), ".jpg");
+                    BufferedImage bufImgSecond = matToBufferedImageConverter2.getBufferedImage();
+
+                    facePanel.setFace(bufImgFirst, bufImgSecond);
+                    facePanel.repaint();
+                } else {
+                    logger.warning("Получен пустой кадр");
+                    fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Получен пустой кадр"));
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    System.exit(1);
+                    break;
+                }
+            } catch (Exception e) {
+                logger.severe("Произошла ошибка: " + e.getMessage());
+                fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Произошла ошибка: " + e.getMessage()));
             }
-            original.release();
-            picture.get(firstImage).release();
-            picture.get(secondImage).release();
         }
 
+        original.release();
+        picture.get(firstImage).release();
+        picture.get(secondImage).release();
 
     }
 
@@ -586,18 +602,10 @@ public class MainWindow {
             break;
 
 
-
-
-
-
-
-
-            case "rectFirst":
-            {
+            case "rectFirst": {
                 lastNameMethod = nameMethod;
                 RectWindow.generationWindow(nameMethod, "original", "33", 0, 0, 640, 480, 640, 480);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "original" + ", " + "33" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
 
                     RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
@@ -607,12 +615,10 @@ public class MainWindow {
             }
             break;
 
-            case "rectSecond":
-            {
+            case "rectSecond": {
                 lastNameMethod = nameMethod;
                 RectWindow.generationWindow(nameMethod, "original", "34", 0, 0, 640, 480, 640, 480);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "original" + ", " + "34" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
 
                     RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
@@ -622,12 +628,10 @@ public class MainWindow {
             }
             break;
 
-            case "rectThird":
-            {
+            case "rectThird": {
                 lastNameMethod = nameMethod;
                 RectWindow.generationWindow(nameMethod, "original", "35", 0, 0, 640, 480, 640, 480);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "original" + ", " + "35" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
 
                     RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
@@ -637,12 +641,10 @@ public class MainWindow {
             }
             break;
 
-            case "rectFourth":
-            {
+            case "rectFourth": {
                 lastNameMethod = nameMethod;
                 RectWindow.generationWindow(nameMethod, "original", "36", 0, 0, 640, 480, 640, 480);
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "original" + ", " + "36" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
 
                     RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
@@ -653,15 +655,10 @@ public class MainWindow {
             break;
 
 
-
-
-
-            case "areaFirst":
-            {
+            case "areaFirst": {
                 lastNameMethod = nameMethod;
                 AreaWindow.generationWindow(nameMethod, "9", "21");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "9" + ", " + "21" + ", " + "24");
 
 
@@ -672,12 +669,10 @@ public class MainWindow {
             }
             break;
 
-            case "areaSecond":
-            {
+            case "areaSecond": {
                 lastNameMethod = nameMethod;
                 AreaWindow.generationWindow(nameMethod, "10", "22");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "10" + ", " + "22" + ", " + "24");
 
 
@@ -688,12 +683,10 @@ public class MainWindow {
             }
             break;
 
-            case "areaThird":
-            {
+            case "areaThird": {
                 lastNameMethod = nameMethod;
                 AreaWindow.generationWindow(nameMethod, "11", "23");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "11" + ", " + "23" + ", " + "24");
 
 
@@ -704,12 +697,10 @@ public class MainWindow {
             }
             break;
 
-            case "areaFourth":
-            {
+            case "areaFourth": {
                 lastNameMethod = nameMethod;
                 AreaWindow.generationWindow(nameMethod, "12", "24");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "12" + ", " + "24" + ", " + "24");
 
 
@@ -721,22 +712,10 @@ public class MainWindow {
             break;
 
 
-
-
-
-
-
-
-
-
-
-
-            case "contourDrawFirst":
-            {
+            case "contourDrawFirst": {
                 lastNameMethod = nameMethod;
                 ContourDrawWindow.generationWindow(nameMethod, "9", "37");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "9" + ", " + "37");
 
 
@@ -747,12 +726,10 @@ public class MainWindow {
             }
             break;
 
-            case "contourDrawSecond":
-            {
+            case "contourDrawSecond": {
                 lastNameMethod = nameMethod;
                 ContourDrawWindow.generationWindow(nameMethod, "9", "38");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "9" + ", " + "38");
 
 
@@ -763,12 +740,10 @@ public class MainWindow {
             }
             break;
 
-            case "contourDrawThird":
-            {
+            case "contourDrawThird": {
                 lastNameMethod = nameMethod;
                 ContourDrawWindow.generationWindow(nameMethod, "9", "39");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "9" + ", " + "39");
 
 
@@ -779,12 +754,10 @@ public class MainWindow {
             }
             break;
 
-            case "contourDrawFourth":
-            {
+            case "contourDrawFourth": {
                 lastNameMethod = nameMethod;
                 ContourDrawWindow.generationWindow(nameMethod, "9", "40");
-                if (!objectsMethods.containsKey(lastNameMethod))
-                {
+                if (!objectsMethods.containsKey(lastNameMethod)) {
                     MainWindow.updateProperty(lastNameMethod, "9" + ", " + "40");
 
 
@@ -804,7 +777,6 @@ public class MainWindow {
     private static void putPicture() throws IOException {
         if (!objectsMethods.isEmpty()) {
             for (Map.Entry<String, Object> object : objectsMethods.entrySet()) {
-//                Object object = objectsMethods.get(0);
                 Mat resultImage = new Mat();
                 String[] lastValues = loadProperty(object.getKey()).split(", ");
                 System.out.println(Arrays.toString(lastValues));
