@@ -28,7 +28,8 @@ public class MainWindow {
             "binaryAndFirst", "binaryAndSecond", "binaryAndThird", "binaryAndFourth",
             "binaryOrFirst", "binaryOrSecond", "binaryOrThird", "binaryOrFourth",
             "rectFirst", "rectSecond", "rectThird", "rectFourth",
-            /*"areaFirst", "areaSecond", "areaThird", "areaFourth"*/
+            /*"contourDrawFirst", "contourDrawSecond", "contourDrawThird", "contourDrawFourth",
+            "areaFirst", "areaSecond", "areaThird", "areaFourth"*/
     };
 
     public static HashMap<String, Integer> cvt = new HashMap<>();
@@ -80,7 +81,7 @@ public class MainWindow {
         }
 
         if (camera.isOpened()) {
-            Thread.sleep(30);
+            Thread.sleep(200);
             while (true) {
                 try {
                     initializeMethods();
@@ -818,6 +819,81 @@ public class MainWindow {
                 }
             }
             break;
+
+
+
+
+
+
+
+
+
+
+
+
+            case "contourDrawFirst":
+            {
+                lastNameMethod = nameMethod;
+                ContourDrawWindow.generationWindow(nameMethod, "9", "37");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "37");
+
+
+                    ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
+                    contourDrawImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                }
+            }
+            break;
+
+            case "contourDrawSecond":
+            {
+                lastNameMethod = nameMethod;
+                ContourDrawWindow.generationWindow(nameMethod, "9", "38");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "38");
+
+
+                    ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
+                    contourDrawImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                }
+            }
+            break;
+
+            case "contourDrawThird":
+            {
+                lastNameMethod = nameMethod;
+                ContourDrawWindow.generationWindow(nameMethod, "9", "39");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "39");
+
+
+                    ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
+                    contourDrawImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                }
+            }
+            break;
+
+            case "contourDrawFourth":
+            {
+                lastNameMethod = nameMethod;
+                ContourDrawWindow.generationWindow(nameMethod, "9", "40");
+                if (!objectsMethods.containsKey(lastNameMethod))
+                {
+                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "40");
+
+
+                    ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
+                    contourDrawImage.execute();
+                    objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                }
+            }
+            break;
         }
         nameMethod = "none";
 
@@ -910,6 +986,13 @@ public class MainWindow {
                     areaImage.execute();
                     resultImage = areaImage.getResult();
                     MainWindow.updateProperty(object.getKey(), lastValues[0] + ", " + lastValues[1] + ", " + areaImage.getArea());
+
+                } else if (object.getValue() instanceof ContourDrawImage) {
+
+                    Mat src = picture.get(lastValues[0]);
+                    ContourDrawImage contourDrawImage = new ContourDrawImage(src);
+                    contourDrawImage.execute();
+                    resultImage = contourDrawImage.getResult();
 
                 }
 
