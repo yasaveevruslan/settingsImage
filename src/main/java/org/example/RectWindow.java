@@ -75,7 +75,7 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
     {
         try
         {
-            String[] lastValues = MainWindow.loadProperties(MainWindow.nameMethod).split(", ");
+            String[] lastValues = MainWindow.loadProperty(MainWindow.nameMethod).split(", ");
             if(lastValues.length>2)
             {
                 String imageFirstValue = lastValues[0];

@@ -59,7 +59,7 @@ class PanelContourDraw extends JPanel implements ActionListener {
     {
         try
         {
-            String[] lastValues = MainWindow.loadProperties(MainWindow.nameMethod).split(", ");
+            String[] lastValues = MainWindow.loadProperty(MainWindow.nameMethod).split(", ");
             if(lastValues.length>1)
             {
                 String imageFirstValue = lastValues[0];

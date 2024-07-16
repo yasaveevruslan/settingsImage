@@ -59,7 +59,7 @@ class PanelArea extends JPanel implements ActionListener {
     {
         try
         {
-            String[] lastValues = MainWindow.loadProperties(MainWindow.nameMethod).split(", ");
+            String[] lastValues = MainWindow.loadProperty(MainWindow.nameMethod).split(", ");
             if(lastValues.length>1)
             {
                 String imageFirstValue = lastValues[0];
@@ -109,7 +109,7 @@ class PanelArea extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    area.setText(MainWindow.loadProperties(name).split(", ")[2]);
+                    area.setText(MainWindow.loadProperty(name).split(", ")[2]);
                     MainWindow.updateProperty(name, imageFirst + ", " + imageSecond);
 
                 } catch (IOException ex) {
@@ -128,7 +128,7 @@ class PanelArea extends JPanel implements ActionListener {
         try {
             imageFirst = (String) firstImage.getSelectedItem();
             imageSecond = (String) secondImage.getSelectedItem();
-            area.setText(MainWindow.loadProperties(name).split(", ")[2]);
+            area.setText(MainWindow.loadProperty(name).split(", ")[2]);
 
             MainWindow.updateProperty(name, imageFirst + ", " + imageSecond);
         } catch (IOException ex) {
