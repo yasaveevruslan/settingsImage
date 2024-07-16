@@ -1,10 +1,6 @@
-июл. 16, 2024 4:19:32 PM null
+июл. 16, 2024 4:25:59 PM null
 WARNING: Изображение на панели пустое
-июл. 16, 2024 4:19:32 PM null
+июл. 16, 2024 4:25:59 PM null
 WARNING: Изображение на панели пустое
-июл. 16, 2024 4:19:39 PM org.example.MainWindow main
+июл. 16, 2024 4:26:06 PM org.example.MainWindow main
 INFO: Камера найдена: org.opencv.videoio.VideoCapture@8646db9
-июл. 16, 2024 4:19:45 PM org.example.MainWindow main
-SEVERE: Произошла ошибка: Index 2 out of bounds for length 1
-июл. 16, 2024 4:19:45 PM null
-SEVERE: Произошла ошибка: Index 2 out of bounds for length 1

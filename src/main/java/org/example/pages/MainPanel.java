@@ -3,6 +3,7 @@ package org.example.pages;
 import org.example.MainWindow;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -109,6 +110,10 @@ public class MainPanel extends JPanel implements ActionListener {
         JButton changeFilePropertyButton = new JButton("Изменить настройки");
         changeFilePropertyButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "Properties files", "properties");
+            fileChooser.setFileFilter(filter);
+
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
