@@ -58,7 +58,7 @@ class PanelCvt extends JPanel implements ActionListener {
     }
 
 
-    private JComboBox firstImage, secondImage, cvtColor;
+    private JComboBox<String> firstImage, secondImage, cvtColor;
 
     private void generationElements(String name, String imageFirst, String imageSecond, String setting)
     {
@@ -91,11 +91,11 @@ class PanelCvt extends JPanel implements ActionListener {
         }
 
         JLabel first = new JLabel("Источник");
-        firstImage = new JComboBox(MainWindow.elements);
+        firstImage = new JComboBox<>(MainWindow.elements);
         JLabel second = new JLabel("Результат");
-        secondImage = new JComboBox(MainWindow.elements);
+        secondImage = new JComboBox<>(MainWindow.elements);
         JLabel cvt = new JLabel("Выберите цветовое пространство: ");
-        cvtColor = new JComboBox(MainWindow.cvt.keySet().toArray(new String[0]));
+        cvtColor = new JComboBox<>(MainWindow.cvt.keySet().toArray(new String[0]));
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
         cvtColor.setSelectedIndex(Arrays.asList(MainWindow.cvt.keySet().toArray(new String[0])).indexOf(this.setting));

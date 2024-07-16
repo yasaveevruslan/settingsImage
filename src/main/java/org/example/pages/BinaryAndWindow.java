@@ -57,7 +57,7 @@ class PanelBinaryAnd extends JPanel implements ActionListener {
     }
 
 
-    private JComboBox firstImage, secondImage, thirdImage;
+    private JComboBox<String> firstImage, secondImage, thirdImage;
 
     private void generationElements(String name, String imageFirst, String imageSecond, String imageThird)
     {
@@ -88,11 +88,11 @@ class PanelBinaryAnd extends JPanel implements ActionListener {
         }
 
         JLabel first = new JLabel("Первый источник");
-        firstImage = new JComboBox(MainWindow.elements);
+        firstImage = new JComboBox<>(MainWindow.elements);
         JLabel second = new JLabel("Второй источник");
-        secondImage = new JComboBox(MainWindow.elements);
+        secondImage = new JComboBox<>(MainWindow.elements);
         JLabel third = new JLabel("Результат");
-        thirdImage = new JComboBox(MainWindow.elements);
+        thirdImage = new JComboBox<>(MainWindow.elements);
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
         thirdImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageThird));

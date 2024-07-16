@@ -70,7 +70,7 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
     }
 
 
-    private JComboBox firstImage, secondImage;
+    private JComboBox<String> firstImage, secondImage;
     private JLabel labelX, labelY, labelWidth, labelHeight;
     private JSlider sliderX, sliderY, sliderWidth, sliderHeight;
 
@@ -112,9 +112,9 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
         }
 
         JLabel first = new JLabel("Источник");
-        firstImage = new JComboBox(MainWindow.elements);
+        firstImage = new JComboBox<>(MainWindow.elements);
         JLabel second = new JLabel("Результат");
-        secondImage = new JComboBox(MainWindow.elements);
+        secondImage = new JComboBox<>(MainWindow.elements);
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
         firstImage.addActionListener(this);

@@ -3,8 +3,6 @@ package org.example.pages;
 import org.example.MainWindow;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -19,17 +17,14 @@ public class DilateWindow {
     private static String imageSecond;
     private static int cofPower;
 
-    public DilateWindow(String nameFirst, String nameSecond, int power)
-    {
+    public DilateWindow(String nameFirst, String nameSecond, int power) {
         imageFirst = nameFirst;
         imageSecond = nameSecond;
         cofPower = power;
     }
 
 
-
-    public static void generationWindow(String name, String nameFirst, String nameSecond, int power)
-    {
+    public static void generationWindow(String name, String nameFirst, String nameSecond, int power) {
         imageFirst = nameFirst;
         imageSecond = nameSecond;
         cofPower = power;
@@ -51,8 +46,8 @@ class PanelDilate extends JPanel implements ActionListener {
 
     private String name, imageFirst, imageSecond;
     private int cofPower;
-    public PanelDilate(String name, String imageFirst, String imageSecond, int power)
-    {
+
+    public PanelDilate(String name, String imageFirst, String imageSecond, int power) {
         super();
         this.name = name;
         super.setLayout(null);
@@ -60,40 +55,33 @@ class PanelDilate extends JPanel implements ActionListener {
     }
 
 
-    private JComboBox firstImage, secondImage;
+    private JComboBox<String> firstImage, secondImage;
 
-    private void generationElements(String name, String imageFirst, String imageSecond, int power)
-    {
-        try
-        {
+    private void generationElements(String name, String imageFirst, String imageSecond, int power) {
+        try {
             String[] lastValues = MainWindow.loadProperty(MainWindow.nameMethod).split(", ");
-            if(lastValues.length>2)
-            {
+            if (lastValues.length > 2) {
                 int powerValue = Integer.parseInt(lastValues[2]);
                 String imageFirstValue = lastValues[0];
                 String imageSecondValue = lastValues[1];
-                this.imageFirst  = imageFirstValue;
+                this.imageFirst = imageFirstValue;
                 this.imageSecond = imageSecondValue;
                 this.cofPower = powerValue;
-            }
-            else
-            {
+            } else {
                 this.imageFirst = imageFirst;
                 this.imageSecond = imageSecond;
                 this.cofPower = power;
             }
 
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             logger.warning("Ошибка при обработке значений с окна для метода dilate: " + e.getLocalizedMessage());
             MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при обработке значений с окна для метода dilate: " + e.getLocalizedMessage()));
         }
 
         JLabel first = new JLabel("Источник");
-        firstImage = new JComboBox(MainWindow.elements);
+        firstImage = new JComboBox<>(MainWindow.elements);
         JLabel second = new JLabel("Результат");
-        secondImage = new JComboBox(MainWindow.elements);
+        secondImage = new JComboBox<>(MainWindow.elements);
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
         firstImage.addActionListener(this);
@@ -120,8 +108,8 @@ class PanelDilate extends JPanel implements ActionListener {
         slider.setMinorTickSpacing(5);
         slider.addChangeListener(e -> {
             try {
-                degrees.setText("Выставленное значение на слайдере: " + ((JSlider)e.getSource()).getValue());
-                cofPower = ((JSlider)e.getSource()).getValue();
+                degrees.setText("Выставленное значение на слайдере: " + ((JSlider) e.getSource()).getValue());
+                cofPower = ((JSlider) e.getSource()).getValue();
                 MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + cofPower);
             } catch (IOException ex) {
                 logger.warning("Ошибка при получении значение со слайдера в окне для метода dilate: " + ex.getLocalizedMessage());
