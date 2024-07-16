@@ -42,5 +42,32 @@ public class ColorImage {
         return result;
     }
 
+    public Mat getSrc() {
+        return src;
+    }
+
+    public int getMinR() {
+        return minR;
+    }
+
+    public int getMaxR() {
+        return maxR;
+    }
+
+    public int getMinG() {
+        return minG;
+    }
+
+    public int getMaxG() {
+        return maxG;
+    }
+
+    public int getMinB() {
+        return minB;
+    }
+
+    public int getMaxB() {
+        return maxB;
+    }
 }
 

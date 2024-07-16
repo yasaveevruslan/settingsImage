@@ -30,5 +30,8 @@ public class BinaryNotImage {
         return result;
     }
 
+    public Mat getSrc() {
+        return src;
+    }
 }
 

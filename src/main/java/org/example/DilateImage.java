@@ -34,6 +34,14 @@ public class DilateImage {
         }
     }
 
+    public int getPower() {
+        return power;
+    }
+
+    public Mat getSrc() {
+        return src;
+    }
+
     public Mat getResult() {
         return result;
     }

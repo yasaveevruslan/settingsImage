@@ -46,12 +46,12 @@ public class CvtImage {
         this.src = src;
     }
 
-    public int getcvtCode() {
-        return cvtCode;
-    }
-
     public void setcvtCode(int cvtCode) {
         this.cvtCode = cvtCode;
+    }
+
+    public int getCvtCode() {
+        return cvtCode;
     }
 }
 

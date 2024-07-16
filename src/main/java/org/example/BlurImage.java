@@ -34,5 +34,12 @@ public class BlurImage {
         return result;
     }
 
+    public int getCof() {
+        return cof;
+    }
+
+    public Mat getSrc() {
+        return src;
+    }
 }
 

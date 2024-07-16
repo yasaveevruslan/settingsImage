@@ -108,7 +108,7 @@ public class MainWindow {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Произошла ошибка: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+//                    JOptionPane.showMessageDialog(null, "Произошла ошибка: " + e.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
                 }
 
 
@@ -589,7 +589,7 @@ public class MainWindow {
 //                Object object = objectsMethods.get(0);
                 Mat resultImage = new Mat();
                 String[] lastValues = loadProperty(object.getKey()).split(", ");
-                System.out.println(Arrays.toString(lastValues));
+//                System.out.println(Arrays.toString(lastValues));
 
                 if (object.getValue() instanceof RotateImage) {
                     Mat src = picture.get(lastValues[0]);

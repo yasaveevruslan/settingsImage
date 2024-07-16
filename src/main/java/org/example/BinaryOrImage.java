@@ -31,5 +31,12 @@ public class BinaryOrImage {
         return result;
     }
 
+    public Mat getSrc() {
+        return src;
+    }
+
+    public Mat getSrc2() {
+        return src2;
+    }
 }
 

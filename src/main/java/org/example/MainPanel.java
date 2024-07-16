@@ -71,7 +71,7 @@ public class MainPanel extends JPanel implements ActionListener {
         JButton open = new JButton("add method");
         open.addActionListener(e -> {
             MainWindow.nameMethod = (String) (boxSettings.getSelectedItem());
-            System.out.println((String) (boxSettings.getSelectedItem()));
+//            System.out.println((String) (boxSettings.getSelectedItem()));
         });
         open.setBounds(1000, 245, 120, 50);
         super.add(open);
@@ -82,6 +82,9 @@ public class MainPanel extends JPanel implements ActionListener {
 
         JButton changeFilePropertyButton = getChangeFileButton();
         super.add(changeFilePropertyButton);
+
+        JButton generationCodeButton = getGenerationCodeFile();
+        super.add(generationCodeButton);
     }
 
     private static JButton getDownloadButton() {
@@ -92,6 +95,7 @@ public class MainPanel extends JPanel implements ActionListener {
                 downloadFile(appConfigPath);
             } catch (IOException ex) {
                 ex.getLocalizedMessage();
+                JOptionPane.showMessageDialog(null, "Ошибка при загрузке файла: " + ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -118,6 +122,17 @@ public class MainPanel extends JPanel implements ActionListener {
         return changeFilePropertyButton;
     }
 
+    private static JButton getGenerationCodeFile() {
+        JButton generationCodeButton = new JButton("Генерация кода");
+        generationCodeButton.addActionListener(e -> {
+            String appConfigPath = "src/main/java/org/example/app.properties";
+            new GenerationCode().generationCode();
+        });
+
+        generationCodeButton.setBounds(700, 640, 160, 50);
+        return generationCodeButton;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         lastFirst = (String) (boxFirst.getSelectedItem());
@@ -126,8 +141,8 @@ public class MainPanel extends JPanel implements ActionListener {
         lastSecond = (String) (boxSecond.getSelectedItem());
         MainWindow.secondImage = lastSecond;
 
-        System.out.println(MainWindow.firstImage);
-        System.out.println(MainWindow.secondImage);
+//        System.out.println(MainWindow.firstImage);
+//        System.out.println(MainWindow.secondImage);
 
     }
 
@@ -186,7 +201,6 @@ public class MainPanel extends JPanel implements ActionListener {
             missingMethods.removeAll(keys);
 
             if (!missingMethods.isEmpty()) {
-                System.out.println("Отсутствующие методы: " + missingMethods);
                 for (String method : missingMethods) {
                     properties.setProperty(method, "0");
                 }
@@ -196,7 +210,6 @@ public class MainPanel extends JPanel implements ActionListener {
             keysToRemove.removeAll(methodsSet);
 
             for (String keyToRemove : keysToRemove) {
-                System.out.println(keyToRemove);
                 properties.remove(keyToRemove);
             }
 
