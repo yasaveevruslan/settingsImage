@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.functions.*;
+import org.example.pages.*;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
@@ -1012,7 +1014,7 @@ public class MainWindow {
 
     public static void createProperties() throws IOException {
 
-        String appConfigPath = "src/main/java/org/example/app.properties";
+        String appConfigPath = "src/main/java/org/example/infa/app.properties";
 
         File file = new File(appConfigPath);
         if (!file.exists()) {
@@ -1032,7 +1034,7 @@ public class MainWindow {
 
 
     public static String loadProperty(String key) throws IOException {
-        String appConfigPath = "src/main/java/org/example/app.properties";
+        String appConfigPath = "src/main/java/org/example/infa/app.properties";
 
         Properties properties = new Properties();
         FileInputStream fileInputStream = new FileInputStream(appConfigPath);
@@ -1045,7 +1047,7 @@ public class MainWindow {
     }
 
     public static void updateProperty(String key, String value) throws IOException {
-        String appConfigPath = "src/main/java/org/example/app.properties";
+        String appConfigPath = "src/main/java/org/example/infa/app.properties";
 
         Properties properties = new Properties();
         FileInputStream fileInputStream = new FileInputStream(appConfigPath);
@@ -1064,7 +1066,7 @@ public class MainWindow {
     }
 
     public static HashMap<String, String> loadProperties() throws IOException {
-        String appConfigPath = "src/main/java/org/example/app.properties";
+        String appConfigPath = "src/main/java/org/example/infa/app.properties";
 
         Properties properties = new Properties();
         FileInputStream fileInputStream = new FileInputStream(appConfigPath);
