@@ -26,6 +26,7 @@ public class RotateImage {
             result = new Mat();
             Point src_center = new Point(src.cols() / 2.0F, src.rows() / 2.0F);
             Mat rot_mat = Imgproc.getRotationMatrix2D(src_center, 360 - rotateCode, 1.0);
+
             Imgproc.warpAffine(src, result, rot_mat, src.size());
             rot_mat.release();
 

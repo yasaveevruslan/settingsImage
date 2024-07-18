@@ -3,6 +3,9 @@ package org.example.pages;
 import org.example.MainWindow;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -40,12 +43,13 @@ public class DilateWindow {
     }
 }
 
-class PanelDilate extends JPanel implements ActionListener {
+class PanelDilate extends JPanel implements ActionListener, ChangeListener {
 
     private static final Logger logger = Logger.getLogger(PanelDilate.class.getName());
 
     private String name, imageFirst, imageSecond;
     private int cofPower;
+    private JLabel degrees;
 
     public PanelDilate(String name, String imageFirst, String imageSecond, int power) {
         super();
@@ -81,24 +85,32 @@ class PanelDilate extends JPanel implements ActionListener {
         JLabel first = new JLabel("Источник");
         firstImage = new JComboBox<>(MainWindow.elements);
         JLabel second = new JLabel("Результат");
+        second.setFont(MainPanel.font);
+        first.setFont(MainPanel.font);
+        firstImage.setFont(MainPanel.font);
+
         secondImage = new JComboBox<>(MainWindow.elements);
+        secondImage.setFont(MainPanel.font);
+
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
         firstImage.addActionListener(this);
         secondImage.addActionListener(this);
-        first.setBounds(200, 5, 70, 50);
-        second.setBounds(200, 120, 70, 50);
-        firstImage.setBounds(290, 5, 120, 50);
-        secondImage.setBounds(290, 120, 120, 50);
+        first.setBounds(200, 5, 260, 50);
+        second.setBounds(200, 120, 260, 50);
+        firstImage.setBounds(290, 5, 200, 50);
+        secondImage.setBounds(290, 120, 200, 50);
         super.add(first);
         super.add(firstImage);
         super.add(second);
         super.add(secondImage);
 
-        JLabel degrees = new JLabel("", JLabel.CENTER);
+        degrees = new JLabel("", JLabel.CENTER);
         JSlider slider = new JSlider(0, 100, cofPower);
         slider.setBounds(50, 200, 600, 50);
-        degrees.setBounds(250, 250, 200, 50);
+        degrees.setBounds(250, 250, 400, 50);
+        degrees.setFont(MainPanel.font);
+        slider.setFont(MainPanel.font);
 
         slider.setPaintTrack(true);
         slider.setPaintTicks(true);
@@ -106,18 +118,8 @@ class PanelDilate extends JPanel implements ActionListener {
 
         slider.setMajorTickSpacing(5);
         slider.setMinorTickSpacing(5);
-        slider.addChangeListener(e -> {
-            try {
-                degrees.setText("Выставленное значение на слайдере: " + ((JSlider) e.getSource()).getValue());
-                cofPower = ((JSlider) e.getSource()).getValue();
-                MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + cofPower);
-            } catch (IOException ex) {
-                logger.warning("Ошибка при получении значение со слайдера в окне для метода dilate: " + ex.getLocalizedMessage());
-                MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при получении значение со слайдера в окне для метода dilate: " + ex.getLocalizedMessage()));
-            }
-
-        });
-        slider.setMajorTickSpacing(5);
+        slider.addChangeListener(this);
+//        slider.setMajorTickSpacing(5);
         slider.setPaintTicks(true);
         slider.setVisible(true);
         super.add(degrees);
@@ -139,4 +141,17 @@ class PanelDilate extends JPanel implements ActionListener {
 
     }
 
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        try {
+            imageFirst = (String) firstImage.getSelectedItem();
+            imageSecond = (String) secondImage.getSelectedItem();
+            degrees.setText("Выставленное значение на слайдере: " + ((JSlider) e.getSource()).getValue());
+            cofPower = ((JSlider) e.getSource()).getValue();
+            MainWindow.updateProperty(name, imageFirst + ", " + imageSecond + ", " + cofPower);
+        } catch (IOException ex) {
+            logger.warning("Ошибка при получении значение со слайдера в окне для метода dilate: " + ex.getLocalizedMessage());
+            MainWindow.fileHandler.publish(new java.util.logging.LogRecord(Level.WARNING, "Ошибка при получении значение со слайдера в окне для метода dilate: " + ex.getLocalizedMessage()));
+        }
+    }
 }

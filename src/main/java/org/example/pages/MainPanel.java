@@ -21,10 +21,10 @@ public class MainPanel extends JPanel implements ActionListener {
     JComboBox<String> boxFirst, boxSecond, boxSettings;
 
     String lastFirst, lastSecond = "original";
+    public static Font font = new Font("Arial", Font.PLAIN, 16);
 
     public MainPanel() {
-        super();
-        super.setLayout(null);
+        super(new BorderLayout());
         generationElements();
 
     }
@@ -32,6 +32,7 @@ public class MainPanel extends JPanel implements ActionListener {
     public void setFace(BufferedImage img, BufferedImage imgCopy) {
         image = img;
         imageCopy = imgCopy;
+        repaint();
     }
 
     public void paintComponent(Graphics g) {
@@ -44,50 +45,75 @@ public class MainPanel extends JPanel implements ActionListener {
         }
         g.drawImage(this.image, 5, 5, this.image.getWidth(), this.image.getHeight(), null);
         g.drawImage(this.imageCopy, 5, 490, this.imageCopy.getWidth(), this.imageCopy.getHeight(), null);
-        g.setFont(new Font("arial", Font.ITALIC, 20));
-        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.ITALIC, 30));
+        g.setColor(Color.BLACK);
 
     }
 
-    public void generationElements() {
+    private void generationElements() {
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel nameFirst = new JLabel("Первое изображение");
+        nameFirst.setFont(font);
         boxFirst = new JComboBox<>(MainWindow.elements);
         boxFirst.addActionListener(this);
-        nameFirst.setBounds(700, 5, 100, 50);
-        boxFirst.setBounds(820, 5, 100, 50);
-        super.add(nameFirst);
-        super.add(boxFirst);
+        boxFirst.setPreferredSize(new Dimension(230, 50));
+        boxFirst.setFont(font);
+        topPanel.add(nameFirst);
+        topPanel.add(boxFirst);
 
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel nameSecond = new JLabel("Второе изображение");
+        nameSecond.setFont(font);
+
         boxSecond = new JComboBox<>(MainWindow.elements);
         boxSecond.addActionListener(this);
-        nameSecond.setBounds(700, 490, 100, 50);
-        boxSecond.setBounds(820, 490, 100, 50);
-        super.add(nameSecond);
-        super.add(boxSecond);
+        boxSecond.setPreferredSize(new Dimension(220, 60));
+        boxSecond.setFont(font);
+        bottomPanel.add(nameSecond);
+        bottomPanel.add(boxSecond);
 
-        JLabel nameSittings = new JLabel("Настройка изображения");
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel nameSettings = new JLabel("Настройка изображения");
+        nameSettings.setFont(font);
         boxSettings = new JComboBox<>(MainWindow.methods);
         boxSettings.addActionListener(this);
-        nameSittings.setBounds(700, 245, 100, 50);
-        boxSettings.setBounds(820, 245, 150, 50);
-        super.add(nameSittings);
-        super.add(boxSettings);
+        boxSettings.setPreferredSize(new Dimension(220, 50));
+        boxSettings.setFont(font);
 
-        JButton open = new JButton("Добавить метод");
-        open.addActionListener(e -> {
+        centerPanel.add(nameSettings);
+        centerPanel.add(boxSettings);
+
+        JButton addButton = new JButton("Добавить метод");
+        addButton.addActionListener(e -> {
             MainWindow.nameMethod = (String) (boxSettings.getSelectedItem());
             System.out.println((String) (boxSettings.getSelectedItem()));
         });
-        open.setBounds(1000, 245, 120, 50);
-        super.add(open);
+        addButton.setPreferredSize(new Dimension(220, 50));
+        addButton.setFont(font);
 
+        centerPanel.add(addButton);
 
+        JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton downloadButton = getDownloadButton();
-        super.add(downloadButton);
+        downloadButton.setPreferredSize(new Dimension(220, 50));
+        downloadButton.setFont(font);
 
+
+        actionPanel.add(downloadButton);
         JButton changeFilePropertyButton = getChangeFileButton();
-        super.add(changeFilePropertyButton);
+        changeFilePropertyButton.setFont(font);
+        changeFilePropertyButton.setPreferredSize(new Dimension(220, 50));
+        actionPanel.add(changeFilePropertyButton);
+
+
+        JPanel mainPanel = new JPanel(new GridLayout(4, 1));
+        mainPanel.add(topPanel);
+        mainPanel.add(centerPanel);
+        mainPanel.add(bottomPanel);
+        mainPanel.add(actionPanel);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 40));
+
+        add(mainPanel, BorderLayout.EAST);
     }
 
     private static JButton getDownloadButton() {
@@ -102,7 +128,6 @@ public class MainPanel extends JPanel implements ActionListener {
             }
         });
 
-        downloadButton.setBounds(700, 550, 160, 50);
         return downloadButton;
     }
 
@@ -125,7 +150,6 @@ public class MainPanel extends JPanel implements ActionListener {
                 }
             }
         });
-        changeFilePropertyButton.setBounds(880, 550, 160, 50);
         return changeFilePropertyButton;
     }
 
@@ -209,7 +233,6 @@ public class MainPanel extends JPanel implements ActionListener {
             keysToRemove.removeAll(methodsSet);
 
             for (String keyToRemove : keysToRemove) {
-                System.out.println(keyToRemove);
                 properties.remove(keyToRemove);
             }
 

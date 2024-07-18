@@ -3,6 +3,7 @@ package org.example.pages;
 import org.example.MainWindow;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -93,20 +94,28 @@ class PanelCvt extends JPanel implements ActionListener {
         JLabel first = new JLabel("Источник");
         firstImage = new JComboBox<>(MainWindow.elements);
         JLabel second = new JLabel("Результат");
+        second.setFont(MainPanel.font);
+        first.setFont(MainPanel.font);
+        firstImage.setFont(MainPanel.font);
+
         secondImage = new JComboBox<>(MainWindow.elements);
-        JLabel cvt = new JLabel("Выберите цветовое пространство: ");
+        secondImage.setFont(MainPanel.font);
+
+        JLabel cvt = new JLabel("Цветовое пространство: ");
+        cvt.setFont(MainPanel.font);
         cvtColor = new JComboBox<>(MainWindow.cvt.keySet().toArray(new String[0]));
+        cvtColor.setFont(MainPanel.font);
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
         cvtColor.setSelectedIndex(Arrays.asList(MainWindow.cvt.keySet().toArray(new String[0])).indexOf(this.setting));
         firstImage.addActionListener(this);
         secondImage.addActionListener(this);
         cvtColor.addActionListener(this);
-        first.setBounds(100, 5, 70, 50);
-        second.setBounds(100, 120, 70, 50);
-        cvt.setBounds(100, 200, 70, 50);
-        firstImage.setBounds(290, 5, 120, 50);
-        secondImage.setBounds(290, 120, 120, 50);
+        first.setBounds(100, 5, 260, 50);
+        second.setBounds(100, 120, 260, 50);
+        cvt.setBounds(60, 200, 260, 50);
+        firstImage.setBounds(290, 5, 200, 50);
+        secondImage.setBounds(290, 120, 200, 50);
         cvtColor.setBounds(290, 200, 200, 50);
         super.add(first);
         super.add(firstImage);

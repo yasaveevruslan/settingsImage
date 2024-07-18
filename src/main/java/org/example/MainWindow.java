@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.functions.*;
 import org.example.pages.*;
+import org.jetbrains.annotations.NotNull;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
@@ -74,14 +75,6 @@ public class MainWindow {
         createProperties();
 
 
-        JFrame frame = new JFrame();
-        frame.setBounds(0, 0, 1200, 1015);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        MainPanel facePanel = new MainPanel();
-        frame.setContentPane(facePanel);
-
-        frame.setVisible(true);
-
         MatToBufImg matToBufferedImageConverter = new MatToBufImg();
         MatToBufImg matToBufferedImageConverter2 = new MatToBufImg();
 
@@ -96,6 +89,13 @@ public class MainWindow {
 
         logger.info("Камера найдена: " + camera);
 
+        JFrame frame = new JFrame();
+        frame.setBounds(0, 0, 1200, 1015);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        MainPanel facePanel = new MainPanel();
+        frame.setContentPane(facePanel);
+
+        frame.setVisible(true);
         while (true) {
             try {
                 initializeMethods();
@@ -137,6 +137,7 @@ public class MainWindow {
                 logger.severe("Произошла ошибка: " + e.getMessage());
                 fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Произошла ошибка: " + e.getMessage()));
             }
+
         }
 
         original.release();
@@ -146,834 +147,765 @@ public class MainWindow {
     }
 
 
-    public static void initializeMethods() throws IOException {
+    public static void initializeMethods() {
 
-        switch (nameMethod) {
-            case "none":
-                break;
+        try {
+            switch (nameMethod) {
+                case "none":
+                    break;
 
-            case "rotateFirst": {
-                lastNameMethod = nameMethod;
-                RotateWindow.generationWindow(nameMethod, "original", "31", 0);
+                case "rotateFirst": {
+                    lastNameMethod = nameMethod;
+                    RotateWindow.generationWindow(nameMethod, "original", "31", 0);
 
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "1" + ", " + "0");
-
-
-                    RotateImage rotateImage = new RotateImage(picture.get("original"), 0);
-                    rotateImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
-                }
-            }
-            break;
-
-            case "rotateSecond": {
-                lastNameMethod = nameMethod;
-                RotateWindow.generationWindow(nameMethod, "1", "2", 0);
-
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "1" + ", " + "2" + ", " + "0");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "original" + ", " + "1" + ", " + "0");
 
 
-                    RotateImage rotateImage = new RotateImage(picture.get("1"), 0);
-                    rotateImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
-                }
-            }
-            break;
-
-            case "rotateThird": {
-                lastNameMethod = nameMethod;
-                RotateWindow.generationWindow(nameMethod, "2", "3", 0);
-
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "2" + ", " + "3" + ", " + "0");
-
-                    RotateImage rotateImage = new RotateImage(picture.get("2"), 0);
-                    rotateImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
-                }
-            }
-            break;
-
-            case "rotateFourth": {
-                lastNameMethod = nameMethod;
-                RotateWindow.generationWindow(nameMethod, "3", "4", 0);
-
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "3" + ", " + "4" + ", " + "0");
-
-                    RotateImage rotateImage = new RotateImage(picture.get("3"), 0);
-                    rotateImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
-                }
-            }
-            break;
-
-
-            case "colorFirst": {
-                lastNameMethod = nameMethod;
-                ColorWindow.generationWindow(nameMethod, "original", "5", 0, 255, 0, 255, 0, 255);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "5" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
-
-                    ColorImage colorImage = new ColorImage(picture.get("original"), 0, 255, 0, 255, 0, 255);
-                    colorImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, colorImage);
-                }
-            }
-            break;
-
-            case "colorSecond":
-                lastNameMethod = nameMethod;
-                ColorWindow.generationWindow(nameMethod, "5", "6", 0, 255, 0, 255, 0, 255);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "5" + ", " + "6" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
-
-                    ColorImage colorImage = new ColorImage(picture.get("5"), 0, 255, 0, 255, 0, 255);
-                    colorImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                        RotateImage rotateImage = new RotateImage(picture.get("original"), 0);
+                        rotateImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
+                    }
                 }
                 break;
 
-            case "colorThird":
-                lastNameMethod = nameMethod;
-                ColorWindow.generationWindow(nameMethod, "6", "7", 0, 255, 0, 255, 0, 255);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "6" + ", " + "7" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
+                case "rotateSecond": {
+                    lastNameMethod = nameMethod;
+                    RotateWindow.generationWindow(nameMethod, "1", "2", 0);
 
-                    ColorImage colorImage = new ColorImage(picture.get("6"), 0, 255, 0, 255, 0, 255);
-                    colorImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "1" + ", " + "2" + ", " + "0");
+
+
+                        RotateImage rotateImage = new RotateImage(picture.get("1"), 0);
+                        rotateImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
+                    }
                 }
                 break;
 
-            case "colorFourth":
-                lastNameMethod = nameMethod;
-                ColorWindow.generationWindow(nameMethod, "7", "8", 0, 255, 0, 255, 0, 255);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "7" + ", " + "8" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
+                case "rotateThird": {
+                    lastNameMethod = nameMethod;
+                    RotateWindow.generationWindow(nameMethod, "2", "3", 0);
 
-                    ColorImage colorImage = new ColorImage(picture.get("7"), 0, 255, 0, 255, 0, 255);
-                    colorImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "2" + ", " + "3" + ", " + "0");
+
+                        RotateImage rotateImage = new RotateImage(picture.get("2"), 0);
+                        rotateImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
+                    }
+                }
+                break;
+
+                case "rotateFourth": {
+                    lastNameMethod = nameMethod;
+                    RotateWindow.generationWindow(nameMethod, "3", "4", 0);
+
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "3" + ", " + "4" + ", " + "0");
+
+                        RotateImage rotateImage = new RotateImage(picture.get("3"), 0);
+                        rotateImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
+                    }
                 }
                 break;
 
 
-            case "cvtFirst": {
-                lastNameMethod = nameMethod;
-                CvtWindow.generationWindow(nameMethod, "original", "9", "COLOR_BGR2HSV");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "9" + ", " + cvt.get("COLOR_BGR2HSV"));
+                case "colorFirst": {
+                    lastNameMethod = nameMethod;
+                    ColorWindow.generationWindow(nameMethod, "original", "5", 0, 255, 0, 255, 0, 255);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "original" + ", " + "5" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
 
-
-                    CvtImage cvtImage = new CvtImage(picture.get("original"), cvt.get("COLOR_BGR2HSV"));
-                    cvtImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                        ColorImage colorImage = new ColorImage(picture.get("original"), 0, 255, 0, 255, 0, 255);
+                        colorImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "cvtSecond": {
-                lastNameMethod = nameMethod;
-                CvtWindow.generationWindow(nameMethod, "9", "10", "COLOR_BGR2HSV");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "10" + ", " + cvt.get("COLOR_BGR2HSV"));
+                case "colorSecond":
+                    lastNameMethod = nameMethod;
+                    ColorWindow.generationWindow(nameMethod, "5", "6", 0, 255, 0, 255, 0, 255);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "5" + ", " + "6" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
+
+                        ColorImage colorImage = new ColorImage(picture.get("5"), 0, 255, 0, 255, 0, 255);
+                        colorImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                    }
+                    break;
+
+                case "colorThird":
+                    lastNameMethod = nameMethod;
+                    ColorWindow.generationWindow(nameMethod, "6", "7", 0, 255, 0, 255, 0, 255);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "6" + ", " + "7" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
+
+                        ColorImage colorImage = new ColorImage(picture.get("6"), 0, 255, 0, 255, 0, 255);
+                        colorImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                    }
+                    break;
+
+                case "colorFourth":
+                    lastNameMethod = nameMethod;
+                    ColorWindow.generationWindow(nameMethod, "7", "8", 0, 255, 0, 255, 0, 255);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "7" + ", " + "8" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255" + ", " + "0" + ", " + "255");
+
+                        ColorImage colorImage = new ColorImage(picture.get("7"), 0, 255, 0, 255, 0, 255);
+                        colorImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                    }
+                    break;
 
 
-                    CvtImage cvtImage = new CvtImage(picture.get("9"), cvt.get("COLOR_BGR2HSV"));
-                    cvtImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                case "cvtFirst": {
+                    lastNameMethod = nameMethod;
+                    CvtWindow.generationWindow(nameMethod, "original", "9", "COLOR_BGR2HSV");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "original" + ", " + "9" + ", " + cvt.get("COLOR_BGR2HSV"));
+
+
+                        CvtImage cvtImage = new CvtImage(picture.get("original"), cvt.get("COLOR_BGR2HSV"));
+                        cvtImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "cvtThird": {
-                lastNameMethod = nameMethod;
-                CvtWindow.generationWindow(nameMethod, "10", "11", "COLOR_BGR2HSV");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "11" + ", " + cvt.get("COLOR_BGR2HSV"));
+                case "cvtSecond": {
+                    lastNameMethod = nameMethod;
+                    CvtWindow.generationWindow(nameMethod, "9", "10", "COLOR_BGR2HSV");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "9" + ", " + "10" + ", " + cvt.get("COLOR_BGR2HSV"));
 
 
-                    CvtImage cvtImage = new CvtImage(picture.get("10"), cvt.get("COLOR_BGR2HSV"));
-                    cvtImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                        CvtImage cvtImage = new CvtImage(picture.get("9"), cvt.get("COLOR_BGR2HSV"));
+                        cvtImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "cvtFourth": {
-                lastNameMethod = nameMethod;
-                CvtWindow.generationWindow(nameMethod, "11", "12", "COLOR_BGR2HSV");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "11" + ", " + "12" + ", " + cvt.get("COLOR_BGR2HSV"));
+                case "cvtThird": {
+                    lastNameMethod = nameMethod;
+                    CvtWindow.generationWindow(nameMethod, "10", "11", "COLOR_BGR2HSV");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "10" + ", " + "11" + ", " + cvt.get("COLOR_BGR2HSV"));
 
-                    CvtImage cvtImage = new CvtImage(picture.get("11"), cvt.get("COLOR_BGR2HSV"));
-                    cvtImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+
+                        CvtImage cvtImage = new CvtImage(picture.get("10"), cvt.get("COLOR_BGR2HSV"));
+                        cvtImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                    }
                 }
-            }
-            break;
+                break;
 
+                case "cvtFourth": {
+                    lastNameMethod = nameMethod;
+                    CvtWindow.generationWindow(nameMethod, "11", "12", "COLOR_BGR2HSV");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "11" + ", " + "12" + ", " + cvt.get("COLOR_BGR2HSV"));
 
-            case "blurFirst": {
-                lastNameMethod = nameMethod;
-                BlurWindow.generationWindow(nameMethod, "original", "13", 1);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "13" + ", " + "1");
-
-
-                    BlurImage blurImage = new BlurImage(picture.get("original"), 1);
-                    blurImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                        CvtImage cvtImage = new CvtImage(picture.get("11"), cvt.get("COLOR_BGR2HSV"));
+                        cvtImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                    }
                 }
-            }
-            break;
-
-            case "blurSecond": {
-                lastNameMethod = nameMethod;
-                BlurWindow.generationWindow(nameMethod, "13", "14", 1);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "13" + ", " + "14" + ", " + "1");
+                break;
 
 
-                    BlurImage blurImage = new BlurImage(picture.get("13"), 1);
-                    blurImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                case "blurFirst": {
+                    lastNameMethod = nameMethod;
+                    BlurWindow.generationWindow(nameMethod, "original", "13", 1);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "original" + ", " + "13" + ", " + "1");
+
+
+                        BlurImage blurImage = new BlurImage(picture.get("original"), 1);
+                        blurImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "blurThird": {
-                lastNameMethod = nameMethod;
-                BlurWindow.generationWindow(nameMethod, "14", "15", 1);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "14" + ", " + "15" + ", " + "1");
+                case "blurSecond": {
+                    lastNameMethod = nameMethod;
+                    BlurWindow.generationWindow(nameMethod, "13", "14", 1);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "13" + ", " + "14" + ", " + "1");
 
 
-                    BlurImage blurImage = new BlurImage(picture.get("14"), 1);
-                    blurImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                        BlurImage blurImage = new BlurImage(picture.get("13"), 1);
+                        blurImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "blurFourth": {
-                lastNameMethod = nameMethod;
-                BlurWindow.generationWindow(nameMethod, "15", "16", 1);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "15" + ", " + "16" + ", " + "1");
+                case "blurThird": {
+                    lastNameMethod = nameMethod;
+                    BlurWindow.generationWindow(nameMethod, "14", "15", 1);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "14" + ", " + "15" + ", " + "1");
 
 
-                    BlurImage blurImage = new BlurImage(picture.get("15"), 1);
-                    blurImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                        BlurImage blurImage = new BlurImage(picture.get("14"), 1);
+                        blurImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                    }
                 }
-            }
-            break;
+                break;
+
+                case "blurFourth": {
+                    lastNameMethod = nameMethod;
+                    BlurWindow.generationWindow(nameMethod, "15", "16", 1);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "15" + ", " + "16" + ", " + "1");
 
 
-            case "dilateFirst": {
-                lastNameMethod = nameMethod;
-                DilateWindow.generationWindow(nameMethod, "original", "17", 1);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "17" + ", " + "1");
-
-
-                    DilateImage dilateImage = new DilateImage(picture.get("original"), 1);
-                    dilateImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                        BlurImage blurImage = new BlurImage(picture.get("15"), 1);
+                        blurImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                    }
                 }
-            }
-            break;
-
-            case "dilateSecond": {
-                lastNameMethod = nameMethod;
-                DilateWindow.generationWindow(nameMethod, "17", "18", 1);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "17" + ", " + "18" + ", " + "1");
+                break;
 
 
-                    DilateImage dilateImage = new DilateImage(picture.get("17"), 1);
-                    dilateImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                case "dilateFirst": {
+                    lastNameMethod = nameMethod;
+                    DilateWindow.generationWindow(nameMethod, "original", "17", 1);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "original" + ", " + "17" + ", " + "1");
+
+
+                        DilateImage dilateImage = new DilateImage(picture.get("original"), 1);
+                        dilateImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "dilateThird": {
-                lastNameMethod = nameMethod;
-                DilateWindow.generationWindow(nameMethod, "18", "19", 1);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "18" + ", " + "19" + ", " + "1");
+                case "dilateSecond": {
+                    lastNameMethod = nameMethod;
+                    DilateWindow.generationWindow(nameMethod, "17", "18", 1);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "17" + ", " + "18" + ", " + "1");
 
 
-                    DilateImage dilateImage = new DilateImage(picture.get("18"), 1);
-                    dilateImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                        DilateImage dilateImage = new DilateImage(picture.get("17"), 1);
+                        dilateImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "dilateFourth": {
-                lastNameMethod = nameMethod;
-                DilateWindow.generationWindow(nameMethod, "19", "20", 1);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "19" + ", " + "20" + ", " + "1");
+                case "dilateThird": {
+                    lastNameMethod = nameMethod;
+                    DilateWindow.generationWindow(nameMethod, "18", "19", 1);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "18" + ", " + "19" + ", " + "1");
 
 
-                    DilateImage dilateImage = new DilateImage(picture.get("19"), 1);
-                    dilateImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                        DilateImage dilateImage = new DilateImage(picture.get("18"), 1);
+                        dilateImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                    }
                 }
-            }
-            break;
+                break;
+
+                case "dilateFourth": {
+                    lastNameMethod = nameMethod;
+                    DilateWindow.generationWindow(nameMethod, "19", "20", 1);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "19" + ", " + "20" + ", " + "1");
 
 
-            case "binaryNotFirst": {
-                lastNameMethod = nameMethod;
-                BinaryNotWindow.generationWindow(nameMethod, "9", "21");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "21");
-
-
-                    BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("9"));
-                    binaryNotImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                        DilateImage dilateImage = new DilateImage(picture.get("19"), 1);
+                        dilateImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "binaryNotSecond": {
-                lastNameMethod = nameMethod;
-                BinaryNotWindow.generationWindow(nameMethod, "10", "22");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "22");
+                case "binaryNotFirst": {
+                    lastNameMethod = nameMethod;
+                    BinaryNotWindow.generationWindow(nameMethod, "9", "21");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "9" + ", " + "21");
 
 
-                    BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("10"));
-                    binaryNotImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                        BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("9"));
+                        binaryNotImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "binaryNotThird": {
-                lastNameMethod = nameMethod;
-                BinaryNotWindow.generationWindow(nameMethod, "11", "23");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "11" + ", " + "23");
+                case "binaryNotSecond": {
+                    lastNameMethod = nameMethod;
+                    BinaryNotWindow.generationWindow(nameMethod, "10", "22");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "10" + ", " + "22");
 
 
-                    BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("11"));
-                    binaryNotImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                        BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("10"));
+                        binaryNotImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "binaryNotFourth": {
-                lastNameMethod = nameMethod;
-                BinaryNotWindow.generationWindow(nameMethod, "12", "24");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "12" + ", " + "24");
+                case "binaryNotThird": {
+                    lastNameMethod = nameMethod;
+                    BinaryNotWindow.generationWindow(nameMethod, "11", "23");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "11" + ", " + "23");
 
 
-                    BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("12"));
-                    binaryNotImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                        BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("11"));
+                        binaryNotImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                    }
                 }
-            }
-            break;
+                break;
+
+                case "binaryNotFourth": {
+                    lastNameMethod = nameMethod;
+                    BinaryNotWindow.generationWindow(nameMethod, "12", "24");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "12" + ", " + "24");
 
 
-            case "binaryAndFirst": {
-                lastNameMethod = nameMethod;
-                BinaryAndWindow.generationWindow(nameMethod, "9", "9", "25");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "9" + ", " + "25");
-
-
-                    BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("9"), picture.get("9"));
-                    binaryAndImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                        BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("12"));
+                        binaryNotImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                    }
                 }
-            }
-            break;
-
-            case "binaryAndSecond": {
-                lastNameMethod = nameMethod;
-                BinaryAndWindow.generationWindow(nameMethod, "10", "10", "26");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "10" + ", " + "26");
+                break;
 
 
-                    BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("10"), picture.get("10"));
-                    binaryAndImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                case "binaryAndFirst": {
+                    lastNameMethod = nameMethod;
+                    BinaryAndWindow.generationWindow(nameMethod, "9", "9", "25");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "9" + ", " + "9" + ", " + "25");
+
+
+                        BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("9"), picture.get("9"));
+                        binaryAndImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "binaryAndThird": {
-                lastNameMethod = nameMethod;
-                BinaryAndWindow.generationWindow(nameMethod, "11", "11", "27");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "11" + ", " + "11" + ", " + "27");
+                case "binaryAndSecond": {
+                    lastNameMethod = nameMethod;
+                    BinaryAndWindow.generationWindow(nameMethod, "10", "10", "26");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "10" + ", " + "10" + ", " + "26");
 
 
-                    BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("11"), picture.get("11"));
-                    binaryAndImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                        BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("10"), picture.get("10"));
+                        binaryAndImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "binaryAndFourth": {
-                lastNameMethod = nameMethod;
-                BinaryAndWindow.generationWindow(nameMethod, "12", "12", "28");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "12" + ", " + "12" + ", " + "28");
+                case "binaryAndThird": {
+                    lastNameMethod = nameMethod;
+                    BinaryAndWindow.generationWindow(nameMethod, "11", "11", "27");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "11" + ", " + "11" + ", " + "27");
 
 
-                    BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("12"), picture.get("12"));
-                    binaryAndImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                        BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("11"), picture.get("11"));
+                        binaryAndImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                    }
                 }
-            }
-            break;
+                break;
+
+                case "binaryAndFourth": {
+                    lastNameMethod = nameMethod;
+                    BinaryAndWindow.generationWindow(nameMethod, "12", "12", "28");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "12" + ", " + "12" + ", " + "28");
 
 
-            case "binaryOrFirst": {
-                lastNameMethod = nameMethod;
-                BinaryOrWindow.generationWindow(nameMethod, "9", "9", "29");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "9" + ", " + "29");
-
-
-                    BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("9"), picture.get("9"));
-                    binaryOrImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                        BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("12"), picture.get("12"));
+                        binaryAndImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                    }
                 }
-            }
-            break;
-
-            case "binaryOrSecond": {
-                lastNameMethod = nameMethod;
-                BinaryOrWindow.generationWindow(nameMethod, "10", "10", "30");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "10" + ", " + "30");
+                break;
 
 
-                    BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("10"), picture.get("10"));
-                    binaryOrImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                case "binaryOrFirst": {
+                    lastNameMethod = nameMethod;
+                    BinaryOrWindow.generationWindow(nameMethod, "9", "9", "29");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "9" + ", " + "9" + ", " + "29");
+
+
+                        BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("9"), picture.get("9"));
+                        binaryOrImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "binaryOrThird": {
-                lastNameMethod = nameMethod;
-                BinaryOrWindow.generationWindow(nameMethod, "11", "11", "31");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "11" + ", " + "11" + ", " + "31");
+                case "binaryOrSecond": {
+                    lastNameMethod = nameMethod;
+                    BinaryOrWindow.generationWindow(nameMethod, "10", "10", "30");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "10" + ", " + "10" + ", " + "30");
 
 
-                    BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("11"), picture.get("11"));
-                    binaryOrImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                        BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("10"), picture.get("10"));
+                        binaryOrImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "binaryOrFourth": {
-                lastNameMethod = nameMethod;
-                BinaryOrWindow.generationWindow(nameMethod, "12", "12", "32");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "12" + ", " + "12" + ", " + "32");
+                case "binaryOrThird": {
+                    lastNameMethod = nameMethod;
+                    BinaryOrWindow.generationWindow(nameMethod, "11", "11", "31");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "11" + ", " + "11" + ", " + "31");
 
 
-                    BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("12"), picture.get("12"));
-                    binaryOrImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                        BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("11"), picture.get("11"));
+                        binaryOrImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                    }
                 }
-            }
-            break;
+                break;
+
+                case "binaryOrFourth": {
+                    lastNameMethod = nameMethod;
+                    BinaryOrWindow.generationWindow(nameMethod, "12", "12", "32");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "12" + ", " + "12" + ", " + "32");
 
 
-            case "rectFirst": {
-                lastNameMethod = nameMethod;
-                RectWindow.generationWindow(nameMethod, "original", "33", 0, 0, 640, 480, 640, 480);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "33" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
-
-                    RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
-                    rectImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                        BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("12"), picture.get("12"));
+                        binaryOrImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "rectSecond": {
-                lastNameMethod = nameMethod;
-                RectWindow.generationWindow(nameMethod, "original", "34", 0, 0, 640, 480, 640, 480);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "34" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
 
-                    RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
-                    rectImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                case "rectFirst": {
+                    lastNameMethod = nameMethod;
+                    RectWindow.generationWindow(nameMethod, "original", "33", 0, 0, 640, 480, 640, 480);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "original" + ", " + "33" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
+
+                        RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
+                        rectImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "rectThird": {
-                lastNameMethod = nameMethod;
-                RectWindow.generationWindow(nameMethod, "original", "35", 0, 0, 640, 480, 640, 480);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "35" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
+                case "rectSecond": {
+                    lastNameMethod = nameMethod;
+                    RectWindow.generationWindow(nameMethod, "original", "34", 0, 0, 640, 480, 640, 480);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "original" + ", " + "34" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
 
-                    RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
-                    rectImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                        RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
+                        rectImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "rectFourth": {
-                lastNameMethod = nameMethod;
-                RectWindow.generationWindow(nameMethod, "original", "36", 0, 0, 640, 480, 640, 480);
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "original" + ", " + "36" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
+                case "rectThird": {
+                    lastNameMethod = nameMethod;
+                    RectWindow.generationWindow(nameMethod, "original", "35", 0, 0, 640, 480, 640, 480);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "original" + ", " + "35" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
 
-                    RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
-                    rectImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                        RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
+                        rectImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                    }
                 }
-            }
-            break;
+                break;
 
+                case "rectFourth": {
+                    lastNameMethod = nameMethod;
+                    RectWindow.generationWindow(nameMethod, "original", "36", 0, 0, 640, 480, 640, 480);
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "original" + ", " + "36" + ", " + "0" + ", " + "0" + ", " + "640" + ", " + "480" + ", " + "640" + ", " + "480");
 
-            case "areaFirst": {
-                lastNameMethod = nameMethod;
-                AreaWindow.generationWindow(nameMethod, "9", "21");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "21" + ", " + "24");
-
-
-                    AreaImage areaImage = new AreaImage(picture.get("9"));
-                    areaImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                        RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
+                        rectImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                    }
                 }
-            }
-            break;
-
-            case "areaSecond": {
-                lastNameMethod = nameMethod;
-                AreaWindow.generationWindow(nameMethod, "10", "22");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "10" + ", " + "22" + ", " + "24");
+                break;
 
 
-                    AreaImage areaImage = new AreaImage(picture.get("10"));
-                    areaImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                case "areaFirst": {
+                    lastNameMethod = nameMethod;
+                    AreaWindow.generationWindow(nameMethod, "9", "21");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "9" + ", " + "21" + ", " + "24");
+
+
+                        AreaImage areaImage = new AreaImage(picture.get("9"));
+                        areaImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "areaThird": {
-                lastNameMethod = nameMethod;
-                AreaWindow.generationWindow(nameMethod, "11", "23");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "11" + ", " + "23" + ", " + "24");
+                case "areaSecond": {
+                    lastNameMethod = nameMethod;
+                    AreaWindow.generationWindow(nameMethod, "10", "22");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "10" + ", " + "22" + ", " + "24");
 
 
-                    AreaImage areaImage = new AreaImage(picture.get("11"));
-                    areaImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                        AreaImage areaImage = new AreaImage(picture.get("10"));
+                        areaImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "areaFourth": {
-                lastNameMethod = nameMethod;
-                AreaWindow.generationWindow(nameMethod, "12", "24");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "12" + ", " + "24" + ", " + "24");
+                case "areaThird": {
+                    lastNameMethod = nameMethod;
+                    AreaWindow.generationWindow(nameMethod, "11", "23");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "11" + ", " + "23" + ", " + "24");
 
 
-                    AreaImage areaImage = new AreaImage(picture.get("12"));
-                    areaImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                        AreaImage areaImage = new AreaImage(picture.get("11"));
+                        areaImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                    }
                 }
-            }
-            break;
+                break;
+
+                case "areaFourth": {
+                    lastNameMethod = nameMethod;
+                    AreaWindow.generationWindow(nameMethod, "12", "24");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "12" + ", " + "24" + ", " + "24");
 
 
-            case "contourDrawFirst": {
-                lastNameMethod = nameMethod;
-                ContourDrawWindow.generationWindow(nameMethod, "9", "37");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "37");
-
-
-                    ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
-                    contourDrawImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                        AreaImage areaImage = new AreaImage(picture.get("12"));
+                        areaImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                    }
                 }
-            }
-            break;
-
-            case "contourDrawSecond": {
-                lastNameMethod = nameMethod;
-                ContourDrawWindow.generationWindow(nameMethod, "9", "38");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "38");
+                break;
 
 
-                    ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
-                    contourDrawImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                case "contourDrawFirst": {
+                    lastNameMethod = nameMethod;
+                    ContourDrawWindow.generationWindow(nameMethod, "9", "37");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "9" + ", " + "37");
+
+
+                        ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
+                        contourDrawImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "contourDrawThird": {
-                lastNameMethod = nameMethod;
-                ContourDrawWindow.generationWindow(nameMethod, "9", "39");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "39");
+                case "contourDrawSecond": {
+                    lastNameMethod = nameMethod;
+                    ContourDrawWindow.generationWindow(nameMethod, "9", "38");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "9" + ", " + "38");
 
 
-                    ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
-                    contourDrawImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                        ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
+                        contourDrawImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                    }
                 }
-            }
-            break;
+                break;
 
-            case "contourDrawFourth": {
-                lastNameMethod = nameMethod;
-                ContourDrawWindow.generationWindow(nameMethod, "9", "40");
-                if (!objectsMethods.containsKey(lastNameMethod)) {
-                    MainWindow.updateProperty(lastNameMethod, "9" + ", " + "40");
+                case "contourDrawThird": {
+                    lastNameMethod = nameMethod;
+                    ContourDrawWindow.generationWindow(nameMethod, "9", "39");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "9" + ", " + "39");
 
 
-                    ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
-                    contourDrawImage.execute();
-                    objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                        ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
+                        contourDrawImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                    }
                 }
+                break;
+
+                case "contourDrawFourth": {
+                    lastNameMethod = nameMethod;
+                    ContourDrawWindow.generationWindow(nameMethod, "9", "40");
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        MainWindow.updateProperty(lastNameMethod, "9" + ", " + "40");
+
+
+                        ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("9"));
+                        contourDrawImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                    }
+                }
+                break;
             }
-            break;
+            nameMethod = "none";
         }
-        nameMethod = "none";
-
-
-    }
-
-
-    private static void putPicture() throws IOException {
-        if (!objectsMethods.isEmpty()) {
-            for (Map.Entry<String, Object> object : objectsMethods.entrySet()) {
-                Mat resultImage = new Mat();
-                String[] lastValues = loadProperty(object.getKey()).split(", ");
-                System.out.println(Arrays.toString(lastValues));
-
-                if (object.getValue() instanceof RotateImage) {
-                    Mat src = picture.get(lastValues[0]);
-                    RotateImage rotateObject = new RotateImage(src, Integer.parseInt(lastValues[2]));
-                    rotateObject.execute();
-                    resultImage = rotateObject.getResult();
-
-                } else if (object.getValue() instanceof ColorImage) {
-                    Mat src = picture.get(lastValues[0]);
-                    ColorImage colorObject = new ColorImage(src,
-                            Integer.parseInt(lastValues[2]), Integer.parseInt(lastValues[3]),
-                            Integer.parseInt(lastValues[4]), Integer.parseInt(lastValues[5]),
-                            Integer.parseInt(lastValues[6]), Integer.parseInt(lastValues[7]));
-                    colorObject.execute();
-                    resultImage = colorObject.getResult();
-
-                } else if (object.getValue() instanceof CvtImage) {
-
-                    Mat src = picture.get(lastValues[0]);
-                    CvtImage cvtImage = new CvtImage(src, Integer.parseInt(lastValues[2]));
-                    cvtImage.execute();
-                    resultImage = cvtImage.getResult();
-
-                } else if (object.getValue() instanceof BlurImage) {
-
-                    Mat src = picture.get(lastValues[0]);
-                    BlurImage blurImage = new BlurImage(src, Integer.parseInt(lastValues[2]));
-                    blurImage.execute();
-                    resultImage = blurImage.getResult();
-
-                } else if (object.getValue() instanceof DilateImage) {
-
-                    Mat src = picture.get(lastValues[0]);
-                    DilateImage dilateImage = new DilateImage(src, Integer.parseInt(lastValues[2]));
-                    dilateImage.execute();
-                    resultImage = dilateImage.getResult();
-
-                } else if (object.getValue() instanceof BinaryNotImage) {
-
-                    Mat src = picture.get(lastValues[0]);
-                    BinaryNotImage binaryNotImage = new BinaryNotImage(src);
-                    binaryNotImage.execute();
-                    resultImage = binaryNotImage.getResult();
-
-                } else if (object.getValue() instanceof BinaryAndImage) {
-
-                    Mat src = picture.get(lastValues[0]);
-                    Mat src2 = picture.get(lastValues[2]);
-                    BinaryAndImage binaryAndImage = new BinaryAndImage(src, src2);
-                    binaryAndImage.execute();
-                    resultImage = binaryAndImage.getResult();
-
-                } else if (object.getValue() instanceof BinaryOrImage) {
-
-                    Mat src = picture.get(lastValues[0]);
-                    Mat src2 = picture.get(lastValues[2]);
-                    BinaryOrImage binaryOrImage = new BinaryOrImage(src, src2);
-                    binaryOrImage.execute();
-                    resultImage = binaryOrImage.getResult();
-
-                } else if (object.getValue() instanceof RectImage) {
-
-                    Mat src = picture.get(lastValues[0]);
-                    RectImage rectImage = new RectImage(src, Integer.parseInt(lastValues[2]),
-                            Integer.parseInt(lastValues[3]), Integer.parseInt(lastValues[4]), Integer.parseInt(lastValues[5]));
-                    rectImage.execute();
-                    resultImage = rectImage.getResult();
-
-                } else if (object.getValue() instanceof AreaImage) {
-
-                    Mat src = picture.get(lastValues[0]);
-                    AreaImage areaImage = new AreaImage(src);
-                    areaImage.execute();
-                    resultImage = areaImage.getResult();
-                    MainWindow.updateProperty(object.getKey(), lastValues[0] + ", " + lastValues[1] + ", " + areaImage.getArea());
-
-                } else if (object.getValue() instanceof ContourDrawImage) {
-
-                    Mat src = picture.get(lastValues[0]);
-                    ContourDrawImage contourDrawImage = new ContourDrawImage(src);
-                    contourDrawImage.execute();
-                    resultImage = contourDrawImage.getResult();
-
-                }
-
-                picture.put(lastValues[1], resultImage.clone());
-            }
-
+        catch (Exception e)
+        {
+            logger.severe("Произошла ошибка: в методе инциализации методов" + e.getMessage());
+            fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Произошла ошибка: в методе инциализации методов: " + e.getMessage()));
         }
     }
+
+
+
+
+    private static void putPicture() {
+        try {
+            if (!objectsMethods.isEmpty()) {
+                for (Map.Entry<String, Object> object : objectsMethods.entrySet()) {
+                    Mat resultImage = new Mat();
+                    String[] lastValues = loadProperty(object.getKey()).split(", ");
+
+                    if (lastValues.length > 1) {
+                        Mat src = picture.get(lastValues[0]);
+                        if (src == null || src.empty()) {
+                            break;
+                        }
+
+                        if (object.getValue() instanceof RotateImage)
+                        {
+                            RotateImage rotateObject = new RotateImage(src, Integer.parseInt(lastValues[2]));
+                            rotateObject.execute();
+                            resultImage = rotateObject.getResult();
+                        }
+                        else if (object.getValue() instanceof ColorImage)
+                        {
+                            ColorImage colorObject = new ColorImage(src,
+                                    Integer.parseInt(lastValues[2]), Integer.parseInt(lastValues[3]),
+                                    Integer.parseInt(lastValues[4]), Integer.parseInt(lastValues[5]),
+                                    Integer.parseInt(lastValues[6]), Integer.parseInt(lastValues[7]));
+                            colorObject.execute();
+                            resultImage = colorObject.getResult();
+                        }
+                        else if (object.getValue() instanceof CvtImage)
+                        {
+
+                            CvtImage cvtImage = new CvtImage(src, Integer.parseInt(lastValues[2]));
+                            cvtImage.execute();
+                            resultImage = cvtImage.getResult();
+                        }
+                        else if (object.getValue() instanceof BlurImage)
+                        {
+
+
+                            BlurImage blurImage = new BlurImage(src, Integer.parseInt(lastValues[2]));
+                            blurImage.execute();
+                            resultImage = blurImage.getResult();
+
+                        }
+                        else if (object.getValue() instanceof DilateImage)
+                        {
+                            DilateImage dilateImage = new DilateImage(src, Integer.parseInt(lastValues[2]));
+                            dilateImage.execute();
+                            resultImage = dilateImage.getResult();
+                        }
+                        else if (object.getValue() instanceof BinaryNotImage)
+                        {
+                            BinaryNotImage binaryNotImage = new BinaryNotImage(src);
+                            binaryNotImage.execute();
+                            resultImage = binaryNotImage.getResult();
+                        }
+                        else if (object.getValue() instanceof BinaryAndImage)
+                        {
+
+                            Mat src2 = picture.get(lastValues[2]);
+                            if (src2 == null || src2.empty())
+                            {
+                                break;
+                            }
+
+                            BinaryAndImage binaryAndImage = new BinaryAndImage(src, src2);
+                            binaryAndImage.execute();
+                            resultImage = binaryAndImage.getResult();
+
+                        }
+                        else if (object.getValue() instanceof BinaryOrImage)
+                        {
+
+                            Mat src2 = picture.get(lastValues[2]);
+                            if (src2 == null || src2.empty())
+                            {
+                                break;
+                            }
+
+                            BinaryOrImage binaryOrImage = new BinaryOrImage(src, src2);
+                            binaryOrImage.execute();
+                            resultImage = binaryOrImage.getResult();
+                        }
+                        else if (object.getValue() instanceof RectImage)
+                        {
+                            RectImage rectImage = new RectImage(src, Integer.parseInt(lastValues[2]),
+                                    Integer.parseInt(lastValues[3]), Integer.parseInt(lastValues[4]), Integer.parseInt(lastValues[5]));
+                            rectImage.execute();
+                            resultImage = rectImage.getResult();
+                        }
+                        else if (object.getValue() instanceof AreaImage)
+                        {
+                            AreaImage areaImage = new AreaImage(src);
+                            areaImage.execute();
+                            resultImage = areaImage.getResult();
+                            MainWindow.updateProperty(object.getKey(), lastValues[0] + ", " + lastValues[1] + ", " + areaImage.getArea());
+                        }
+                        else if (object.getValue() instanceof ContourDrawImage)
+                        {
+                            ContourDrawImage contourDrawImage = new ContourDrawImage(src);
+                            contourDrawImage.execute();
+                            resultImage = contourDrawImage.getResult();
+                        }
+                        picture.put(lastValues[1], resultImage.clone());
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            logger.severe("Произошла ошибка: в методе putPicture" + e.getMessage());
+            fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Произошла ошибка: в методе putPicture: " + e.getMessage()));
+        }
+    }
+
 
 
     public static void initializePicture() {
         original = new Mat();
-        mat1 = new Mat();
-        mat2 = new Mat();
-        mat3 = new Mat();
-        mat4 = new Mat();
-        mat5 = new Mat();
-        mat6 = new Mat();
-        mat7 = new Mat();
-        mat8 = new Mat();
-        mat9 = new Mat();
-        mat10 = new Mat();
-        mat11 = new Mat();
-        mat12 = new Mat();
-        mat13 = new Mat();
-        mat14 = new Mat();
-        mat15 = new Mat();
-        mat16 = new Mat();
-        mat17 = new Mat();
-        mat18 = new Mat();
-        mat19 = new Mat();
-        mat20 = new Mat();
-        mat21 = new Mat();
-        mat22 = new Mat();
-        mat23 = new Mat();
-        mat24 = new Mat();
-        mat25 = new Mat();
-        mat26 = new Mat();
-        mat27 = new Mat();
-        mat28 = new Mat();
-        mat29 = new Mat();
-        mat30 = new Mat();
-        mat31 = new Mat();
-        mat32 = new Mat();
-        mat33 = new Mat();
-        mat34 = new Mat();
-        mat35 = new Mat();
-        mat36 = new Mat();
-        mat37 = new Mat();
-        mat38 = new Mat();
-        mat39 = new Mat();
-        mat40 = new Mat();
-        mat41 = new Mat();
-        mat42 = new Mat();
-        mat43 = new Mat();
-        mat44 = new Mat();
-        mat45 = new Mat();
-        mat46 = new Mat();
-        mat47 = new Mat();
-        mat48 = new Mat();
-        mat49 = new Mat();
+
+        for (int i = 1; i < elements.length; i++)
+        {
+            picture.put(elements[i], new Mat());
+        }
 
         picture.put("original", original);
-        picture.put("1", mat1);
-        picture.put("2", mat2);
-        picture.put("3", mat3);
-        picture.put("4", mat4);
-        picture.put("5", mat5);
-        picture.put("6", mat6);
-        picture.put("7", mat7);
-        picture.put("8", mat8);
-        picture.put("9", mat9);
-        picture.put("10", mat10);
-        picture.put("11", mat11);
-        picture.put("12", mat12);
-        picture.put("13", mat13);
-        picture.put("14", mat14);
-        picture.put("15", mat15);
-        picture.put("16", mat16);
-        picture.put("17", mat17);
-        picture.put("18", mat18);
-        picture.put("19", mat19);
-        picture.put("20", mat20);
-        picture.put("21", mat21);
-        picture.put("22", mat22);
-        picture.put("23", mat23);
-        picture.put("24", mat24);
-        picture.put("25", mat25);
-        picture.put("26", mat26);
-        picture.put("27", mat27);
-        picture.put("28", mat28);
-        picture.put("29", mat29);
-        picture.put("30", mat30);
-        picture.put("31", mat31);
-        picture.put("32", mat32);
-        picture.put("33", mat33);
-        picture.put("34", mat34);
-        picture.put("35", mat35);
-        picture.put("36", mat36);
-        picture.put("37", mat37);
-        picture.put("38", mat38);
-        picture.put("39", mat39);
-        picture.put("40", mat40);
-        picture.put("41", mat41);
-        picture.put("42", mat42);
-        picture.put("43", mat43);
-        picture.put("44", mat44);
-        picture.put("45", mat45);
-        picture.put("46", mat46);
-        picture.put("47", mat47);
-        picture.put("48", mat48);
-        picture.put("49", mat49);
 
         cvt.put("COLOR_BGR2BGRA", Imgproc.COLOR_BGR2BGRA);
         cvt.put("COLOR_BGR2HLS", Imgproc.COLOR_BGR2HLS);
@@ -1003,7 +935,6 @@ public class MainWindow {
         }
 
     }
-
 
     public static String loadProperty(String key) throws IOException {
         String appConfigPath = "src/main/java/org/example/infa/app.properties";

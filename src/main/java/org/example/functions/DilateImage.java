@@ -23,12 +23,14 @@ public class DilateImage {
     public void execute() {
         try {
             result = new Mat();
-            src.copyTo(result);
+            Mat dst = new Mat();
+            src.copyTo(dst);
 
             Mat element1 = Imgproc.getStructuringElement(Imgproc.MORPH_RECT,
                     new Size(2 * power + 1, 2 * power + 1));
-            Imgproc.dilate(src, result, element1);
+            Imgproc.dilate(src, dst, element1);
 
+            result = dst;
             logger.info("Дилатация выполнена успешно с параметрами: power = " + power);
         } catch (Exception e) {
             result = null;

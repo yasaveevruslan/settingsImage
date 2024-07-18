@@ -89,18 +89,25 @@ class PanelArea extends JPanel implements ActionListener {
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
         firstImage.addActionListener(this);
         secondImage.addActionListener(this);
-        first.setBounds(200, 5, 70, 50);
-        second.setBounds(200, 120, 70, 50);
-        firstImage.setBounds(290, 5, 120, 50);
-        secondImage.setBounds(290, 120, 120, 50);
+        first.setBounds(200, 5, 260, 50);
+        second.setBounds(200, 120, 260, 50);
+        firstImage.setBounds(290, 5, 200, 50);
+        secondImage.setBounds(290, 120, 200, 50);
+        second.setFont(MainPanel.font);
+        first.setFont(MainPanel.font);
+        firstImage.setFont(MainPanel.font);
+        secondImage.setFont(MainPanel.font);
+
         super.add(first);
         super.add(firstImage);
         super.add(second);
         super.add(secondImage);
         area = new JLabel("area");
-        area.setBounds(200, 200, 200, 50);
+        area.setBounds(200, 200, 300, 50);
+        area.setFont(MainPanel.font);
         super.add(area);
         JButton generation = getjButton(name, imageFirst, imageSecond);
+        generation.setFont(MainPanel.font);
         super.add(generation);
 
     }
@@ -121,7 +128,7 @@ class PanelArea extends JPanel implements ActionListener {
 
             }
         });
-        generation.setBounds(200, 290, 200, 50);
+        generation.setBounds(200, 290, 220, 50);
         return generation;
     }
 

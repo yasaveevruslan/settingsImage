@@ -5,6 +5,7 @@ import org.example.MainWindow;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -30,8 +31,6 @@ public class RectWindow {
         mainWidth = mainWidthF;
         mainHeight = mainHeightF;
     }
-
-
 
     public static void generationWindow(String name, String nameFirst, String nameSecond, int xF, int yF, int widthF, int heightF, int mainWidthF, int mainHeightF)
     {
@@ -114,7 +113,13 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
         JLabel first = new JLabel("Источник");
         firstImage = new JComboBox<>(MainWindow.elements);
         JLabel second = new JLabel("Результат");
+        second.setFont(MainPanel.font);
+        first.setFont(MainPanel.font);
+        firstImage.setFont(MainPanel.font);
+
         secondImage = new JComboBox<>(MainWindow.elements);
+        secondImage.setFont(MainPanel.font);
+
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
         firstImage.addActionListener(this);
@@ -132,6 +137,8 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
         sliderX = new JSlider(0, 640, x);
         sliderX.setBounds(50, 200, 600, 50);
         labelX.setBounds(250, 250, 200, 50);
+        labelX.setFont(MainPanel.font);
+        sliderX.setFont(MainPanel.font);
 
         sliderX.setPaintTrack(true);
         sliderX.setPaintTicks(true);
@@ -149,6 +156,8 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
         sliderY = new JSlider(0, 640, y);
         sliderY.setBounds(50, 300, 600, 50);
         labelY.setBounds(250, 350, 200, 50);
+        sliderY.setFont(MainPanel.font);
+        labelY.setFont(MainPanel.font);
 
         sliderY.setPaintTrack(true);
         sliderY.setPaintTicks(true);
@@ -172,6 +181,8 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
         sliderWidth = new JSlider(0, 640, width);
         sliderWidth.setBounds(50, 400, 600, 50);
         labelWidth.setBounds(250, 450, 200, 50);
+        labelWidth.setFont(MainPanel.font);
+        sliderWidth.setFont(MainPanel.font);
 
         sliderWidth.setPaintTrack(true);
         sliderWidth.setPaintTicks(true);
@@ -189,6 +200,8 @@ class RectPanel extends JPanel implements ActionListener, ChangeListener {
         sliderHeight = new JSlider(0, 640, height);
         sliderHeight.setBounds(50, 500, 600, 50);
         labelHeight.setBounds(250, 550, 200, 50);
+        sliderHeight.setFont(MainPanel.font);
+        labelHeight.setFont(MainPanel.font);
 
         sliderHeight.setPaintTrack(true);
         sliderHeight.setPaintTicks(true);

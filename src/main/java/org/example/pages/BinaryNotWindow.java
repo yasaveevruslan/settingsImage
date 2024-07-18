@@ -83,16 +83,21 @@ class PanelBinaryNot extends JPanel implements ActionListener {
 
         JLabel first = new JLabel("Источник");
         firstImage = new JComboBox<>(MainWindow.elements);
-        JLabel second = new JLabel("Резуьтат");
+        JLabel second = new JLabel("Результат");
         secondImage = new JComboBox<>(MainWindow.elements);
+        second.setFont(MainPanel.font);
+        first.setFont(MainPanel.font);
+        firstImage.setFont(MainPanel.font);
+        secondImage.setFont(MainPanel.font);
+
         firstImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageFirst));
         secondImage.setSelectedIndex(Arrays.asList(MainWindow.elements).indexOf(this.imageSecond));
         firstImage.addActionListener(this);
         secondImage.addActionListener(this);
-        first.setBounds(200, 5, 70, 50);
-        second.setBounds(200, 120, 70, 50);
-        firstImage.setBounds(290, 5, 120, 50);
-        secondImage.setBounds(290, 120, 120, 50);
+        first.setBounds(200, 5, 260, 50);
+        second.setBounds(200, 120, 260, 50);
+        firstImage.setBounds(290, 5, 200, 50);
+        secondImage.setBounds(290, 120, 200, 50);
         super.add(first);
         super.add(firstImage);
         super.add(second);
