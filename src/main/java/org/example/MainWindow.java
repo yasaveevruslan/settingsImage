@@ -3,14 +3,17 @@ package org.example;
 import org.example.functions.*;
 import org.example.pages.*;
 import org.jetbrains.annotations.NotNull;
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -60,9 +63,12 @@ public class MainWindow {
 
     public static HashMap<String, Mat> picture = new HashMap<>();
 
-    public static void main(String[] args) throws Exception {
+    static
+    {
+        nu.pattern.OpenCV.loadLocally();
+    }
 
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+    public static void main(String[] args) throws Exception {
         initializePicture();
 
         try {
@@ -92,8 +98,24 @@ public class MainWindow {
         JFrame frame = new JFrame();
         frame.setBounds(0, 0, 1200, 1015);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setTitle("SettingsImage");
+
+        URL iconURL = MainWindow.class.getResource("/favicon.png");
+        if (iconURL != null)
+        {
+            ImageIcon icon = new ImageIcon(iconURL);
+            frame.setIconImage(icon.getImage());
+        }
+        else
+        {
+            System.err.println("Icon not found!");
+        }
         MainPanel facePanel = new MainPanel();
+        facePanel.setBackground(new Color(239, 239, 239));
+
         frame.setContentPane(facePanel);
+
 
         frame.setVisible(true);
         while (true) {
@@ -916,70 +938,70 @@ public class MainWindow {
         cvt.put("COLOR_BGR2YUV", Imgproc.COLOR_BGR2YUV);
     }
 
+
+    @NotNull
+    private static Path getPropertiesPath() {
+        return Paths.get("src", "main", "java", "org", "example", "infa", "app.properties");
+    }
+
     public static void createProperties() throws IOException {
+        Path appConfigPath = getPropertiesPath();
+        File file = appConfigPath.toFile();
 
-        String appConfigPath = "src/main/java/org/example/infa/app.properties";
-
-        File file = new File(appConfigPath);
         if (!file.exists()) {
-            Properties properties = new Properties();
-            FileOutputStream fileOutputStream = new FileOutputStream(appConfigPath);
 
-            for (String method : methods) {
-                properties.setProperty(method, "0");
+            File parentDir = file.getParentFile();
+            if (!parentDir.exists()) {
+                parentDir.mkdirs();
             }
 
-            properties.store(fileOutputStream, "File to store settings");
+            Properties properties = new Properties();
 
-            fileOutputStream.close();
+            try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+                for (String method : methods) {
+                    properties.setProperty(method, "0");
+                }
+                properties.store(fileOutputStream, "File to store settings");
+            }
         }
-
     }
 
     public static String loadProperty(String key) throws IOException {
-        String appConfigPath = "src/main/java/org/example/infa/app.properties";
+        Path appConfigPath = getPropertiesPath();
 
         Properties properties = new Properties();
-        FileInputStream fileInputStream = new FileInputStream(appConfigPath);
-
-        properties.load(fileInputStream);
-
-        fileInputStream.close();
+        try (FileInputStream fileInputStream = new FileInputStream(appConfigPath.toFile())) {
+            properties.load(fileInputStream);
+        }
 
         return properties.getProperty(key, "0");
     }
 
     public static void updateProperty(String key, String value) throws IOException {
-        String appConfigPath = "src/main/java/org/example/infa/app.properties";
+        Path appConfigPath = getPropertiesPath();
 
         Properties properties = new Properties();
-        FileInputStream fileInputStream = new FileInputStream(appConfigPath);
-
-        properties.load(fileInputStream);
-
-        fileInputStream.close();
+        try (FileInputStream fileInputStream = new FileInputStream(appConfigPath.toFile())) {
+            properties.load(fileInputStream);
+        }
 
         properties.setProperty(key, value);
 
-        FileOutputStream fileOutputStream = new FileOutputStream(appConfigPath);
-
-        properties.store(fileOutputStream, "File to store settings");
-
-        fileOutputStream.close();
+        try (FileOutputStream fileOutputStream = new FileOutputStream(appConfigPath.toFile())) {
+            properties.store(fileOutputStream, "File to store settings");
+        }
     }
 
+    @NotNull
     public static HashMap<String, String> loadProperties() throws IOException {
-        String appConfigPath = "src/main/java/org/example/infa/app.properties";
+        Path appConfigPath = getPropertiesPath();
 
         Properties properties = new Properties();
-        FileInputStream fileInputStream = new FileInputStream(appConfigPath);
-
-        properties.load(fileInputStream);
-
-        fileInputStream.close();
+        try (FileInputStream fileInputStream = new FileInputStream(appConfigPath.toFile())) {
+            properties.load(fileInputStream);
+        }
 
         HashMap<String, String> propertiesMap = new HashMap<>();
-
         for (String name : methods) {
             propertiesMap.put(name, properties.getProperty(name, "0"));
         }
