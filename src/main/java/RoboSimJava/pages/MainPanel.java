@@ -186,15 +186,17 @@ public class MainPanel extends JPanel implements ActionListener {
         addButton.setFocusPainted(false);
 
         addButton.addActionListener(e -> {
-            int indexFirst = boxFirst.getSelectedIndex();
-            int indexSecond = boxSecond.getSelectedIndex();
-            MainWindow.nameImage++;
-            MainWindow.images.add("" + MainWindow.nameImage);
-            MainWindow.functions.add(MainWindow.nameImage + "." + boxSettings.getSelectedItem());
-            MainWindow.nameMethod = (MainWindow.nameImage + "." + boxSettings.getSelectedItem());
-            updateComboBox();
-            boxFirst.setSelectedIndex(indexFirst);
-            boxSecond.setSelectedIndex(indexSecond);
+            if (!Objects.equals(boxSettings.getSelectedItem(), "none")) {
+                int indexFirst = boxFirst.getSelectedIndex();
+                int indexSecond = boxSecond.getSelectedIndex();
+                MainWindow.nameImage++;
+                MainWindow.images.add("" + MainWindow.nameImage);
+                MainWindow.functions.add(MainWindow.nameImage + "." + boxSettings.getSelectedItem());
+                MainWindow.nameMethod = (MainWindow.nameImage + "." + boxSettings.getSelectedItem());
+                updateComboBox();
+                boxFirst.setSelectedIndex(indexFirst);
+                boxSecond.setSelectedIndex(indexSecond);
+            }
         });
         addButton.setPreferredSize(buttonSize);
         addButton.setFont(font);

@@ -43,25 +43,13 @@ public class MainWindow {
             "binaryAnd",
             "binaryOr",
             "rect",
+//            "contourDraw",
+//            "area"
     };
 
     public static ArrayList<String> images = new ArrayList<>();
 
 
-
-    public static final String[] methods = {"none",
-            "rotateFirst", "rotateSecond", "rotateThird", "rotateFourth",
-            "colorFirst", "colorSecond", "colorThird", "colorFourth",
-            "cvtFirst", "cvtSecond", "cvtThird", "cvtFourth",
-            "blurFirst", "blurSecond", "blurThird", "blurFourth",
-            "dilateFirst", "dilateSecond", "dilateThird", "dilateFourth",
-            "binaryNotFirst", "binaryNotSecond", "binaryNotThird", "binaryNotFourth",
-            "binaryAndFirst", "binaryAndSecond", "binaryAndThird", "binaryAndFourth",
-            "binaryOrFirst", "binaryOrSecond", "binaryOrThird", "binaryOrFourth",
-            "rectFirst", "rectSecond", "rectThird", "rectFourth",
-            /*"contourDrawFirst", "contourDrawSecond", "contourDrawThird", "contourDrawFourth",
-            "areaFirst", "areaSecond", "areaThird", "areaFourth"*/
-    };
 
     public static HashMap<String, Integer> cvt = new HashMap<>();
 
@@ -72,11 +60,7 @@ public class MainWindow {
 
     public static String firstImage = "original", secondImage = "original";
 
-    public static Mat original, mat1, mat2, mat3, mat4, mat5, mat6, mat7, mat8, mat9,
-            mat10, mat11, mat12, mat13, mat14, mat15, mat16, mat17, mat18, mat19,
-            mat20, mat21, mat22, mat23, mat24, mat25, mat26, mat27, mat28, mat29,
-            mat30, mat31, mat32, mat33, mat34, mat35, mat36, mat37, mat38, mat39,
-            mat40, mat41, mat42, mat43, mat44, mat45, mat46, mat47, mat48, mat49;
+    public static Mat original;
 
 
     public static HashMap<String, Mat> picture = new HashMap<>();
@@ -87,8 +71,21 @@ public class MainWindow {
     }
 
     public static void main(String[] args) throws Exception {
-        initializeProperties();
-        initializePicture();
+
+
+        String[] options = {"Открыть сохраненный файл конфигурации", "Создать новый файл конфигурации", "Выход"};
+
+        int choice = JOptionPane.showOptionDialog(
+                null,
+                "Добро пожаловать в SettingsImage!\nВыберите действие:",
+                "Запуск приложения",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
         try {
             fileHandler = new FileHandler("log.log");
             fileHandler.setFormatter(new SimpleFormatter());
@@ -96,8 +93,18 @@ public class MainWindow {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        createProperties();
 
+        if (choice == 0) {
+            initializePicture();
+            createProperties();
+            initializeProperties();
+        } else if (choice == 1) {
+            clearProperties();
+            createProperties();
+            initializePicture();
+        } else {
+            System.exit(0);
+        }
 
         MatToBufImg matToBufferedImageConverter = new MatToBufImg();
         MatToBufImg matToBufferedImageConverter2 = new MatToBufImg();
@@ -188,7 +195,7 @@ public class MainWindow {
 
 
     public static void initializeMethods() {
-        String name = "none";
+        String name;
         try {
             String[] names = nameMethod.split("\\.");
             if (names.length >= 2) {
@@ -592,16 +599,173 @@ public class MainWindow {
         try (FileInputStream fileInputStream = new FileInputStream(appConfigPath.toFile())) {
             properties.load(fileInputStream);
         }
+
+        if (properties.getProperty("0.none") == null) {
+            properties.setProperty("0.none", "0");
+        }
         keysProperties.addAll(properties.stringPropertyNames());
         Collections.sort(keysProperties);
         System.out.println(keysProperties);
         functions.clear();
         functions.addAll(keysProperties);
 
-        int lastImage = Integer.parseInt(functions.get(functions.size() - 1).split("\\.")[0]);
+        int lastImage = Integer.parseInt(functions.getLast().split("\\.")[0]);
         nameImage = lastImage;
         for (int i = 1; i <= lastImage; i++) {
             images.add("" + i);
+        }
+        for (String keys : properties.stringPropertyNames()) {
+            initializeMethodsProperties(keys);
+        }
+    }
+
+    private static void clearProperties() {
+        Path appConfigPath = getPropertiesPath();
+        File file = appConfigPath.toFile();
+
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
+    public static void initializeMethodsProperties(String nameFunction) {
+        String name;
+        try {
+            String[] names = nameFunction.split("\\.");
+            if (names.length >= 2) {
+                name = names[1];
+            } else {
+                name = nameFunction;
+            }
+            switch (name) {
+                case "none":
+                    break;
+
+                case "rotate": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        RotateImage rotateImage = new RotateImage(picture.get("original"), 0);
+                        rotateImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, rotateImage);
+                    }
+                }
+                break;
+
+
+                case "color": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        ColorImage colorImage = new ColorImage(picture.get("original"), 0, 255, 0, 255, 0, 255);
+                        colorImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, colorImage);
+                    }
+                }
+                break;
+
+
+                case "cvt": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        CvtImage cvtImage = new CvtImage(picture.get("original"), cvt.get("COLOR_BGR2HSV"));
+                        cvtImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, cvtImage);
+                    }
+                }
+                break;
+
+
+                case "blur": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        BlurImage blurImage = new BlurImage(picture.get("original"), 1);
+                        blurImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, blurImage);
+                    }
+                }
+                break;
+
+
+                case "dilate": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        DilateImage dilateImage = new DilateImage(picture.get("original"), 1);
+                        dilateImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, dilateImage);
+                    }
+                }
+                break;
+
+
+                case "binaryNot": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        BinaryNotImage binaryNotImage = new BinaryNotImage(picture.get("" + nameImage));
+                        binaryNotImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryNotImage);
+                    }
+                }
+                break;
+
+
+                case "binaryAnd": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        BinaryAndImage binaryAndImage = new BinaryAndImage(picture.get("" + nameImage), picture.get("" + nameImage));
+                        binaryAndImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryAndImage);
+                    }
+                }
+                break;
+
+
+                case "binaryOr": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        BinaryOrImage binaryOrImage = new BinaryOrImage(picture.get("" + nameImage), picture.get("" + nameImage));
+                        binaryOrImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, binaryOrImage);
+                    }
+                }
+                break;
+
+
+                case "rect": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        RectImage rectImage = new RectImage(picture.get("original"), 0, 0, 640, 480);
+                        rectImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, rectImage);
+                    }
+                }
+                break;
+
+
+                case "area": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        AreaImage areaImage = new AreaImage(picture.get("" + nameImage));
+                        areaImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, areaImage);
+                    }
+                }
+                break;
+
+
+                case "contourDraw": {
+                    lastNameMethod = nameFunction;
+                    if (!objectsMethods.containsKey(lastNameMethod)) {
+                        ContourDrawImage contourDrawImage = new ContourDrawImage(picture.get("original"));
+                        contourDrawImage.execute();
+                        objectsMethods.putIfAbsent(lastNameMethod, contourDrawImage);
+                    }
+                }
+                break;
+
+            }
+            nameMethod = "none";
+        } catch (Exception e) {
+            logger.severe("Произошла ошибка: в методе инциализации методов" + e.getMessage());
+            fileHandler.publish(new java.util.logging.LogRecord(Level.SEVERE, "Произошла ошибка: в методе инциализации методов: " + e.getMessage()));
         }
     }
 }
