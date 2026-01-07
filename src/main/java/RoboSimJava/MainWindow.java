@@ -25,6 +25,8 @@ public class MainWindow {
     private static final Logger logger = Logger.getLogger(MainWindow.class.getName());
     public static FileHandler fileHandler;
 
+    public static ArrayList<String> keysProperties = new ArrayList<>();
+
     public static final ArrayList<String> image = new ArrayList<>();
 
     public static int nameImage = 0;
@@ -85,8 +87,8 @@ public class MainWindow {
     }
 
     public static void main(String[] args) throws Exception {
+        initializeProperties();
         initializePicture();
-
         try {
             fileHandler = new FileHandler("log.log");
             fileHandler.setFormatter(new SimpleFormatter());
@@ -378,7 +380,6 @@ public class MainWindow {
         try {
             if (!objectsMethods.isEmpty()) {
                 for (Map.Entry<String, Object> object : objectsMethods.entrySet()) {
-                    System.out.println(object.getKey());
                     Mat resultImage = new Mat();
                     String[] lastValues = loadProperty(object.getKey()).split(", ");
 
@@ -494,12 +495,7 @@ public class MainWindow {
     public static void initializePicture() {
         original = new Mat();
         images.addFirst("original");
-        functions.addFirst("none");
-
-//        for (int i = 1; i < elements.length; i++)
-//        {
-//            picture.put(elements[i], new Mat());
-//        }
+        functions.addFirst("0.none");
 
         for (int i = 1; i < images.size(); i++)
         {
@@ -586,5 +582,26 @@ public class MainWindow {
         }
 
         return propertiesMap;
+    }
+
+
+    private static void initializeProperties() throws IOException {
+        Path appConfigPath = getPropertiesPath();
+
+        Properties properties = new Properties();
+        try (FileInputStream fileInputStream = new FileInputStream(appConfigPath.toFile())) {
+            properties.load(fileInputStream);
+        }
+        keysProperties.addAll(properties.stringPropertyNames());
+        Collections.sort(keysProperties);
+        System.out.println(keysProperties);
+        functions.clear();
+        functions.addAll(keysProperties);
+
+        int lastImage = Integer.parseInt(functions.get(functions.size() - 1).split("\\.")[0]);
+        nameImage = lastImage;
+        for (int i = 1; i <= lastImage; i++) {
+            images.add("" + i);
+        }
     }
 }
